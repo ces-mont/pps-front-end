@@ -4,6 +4,8 @@
   "description": "front-end para el desarrollo de la aplicación de gestión de turnos de laboratorios de la UTN",
   "main": "index.js",
   "scripts": {
+    "start": "webpack serve --mode development --open",
+    "builddev": "webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +18,22 @@
   "bugs": {
     "url": "https://github.com/ces-mont/pps-front-end/issues"
   },
-  "homepage": "https://github.com/ces-mont/pps-front-end#readme"
+  "homepage": "https://github.com/ces-mont/pps-front-end#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.3.0",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.57.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.1"
+  }
 }
