@@ -1,0 +1,20 @@
+{
+  "name": "pps-front-end",
+  "version": "1.0.0",
+  "description": "front-end para el desarrollo de la aplicación de gestión de turnos de laboratorios de la UTN",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ces-mont/pps-front-end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ces-mont/pps-front-end/issues"
+  },
+  "homepage": "https://github.com/ces-mont/pps-front-end#readme"
+}
