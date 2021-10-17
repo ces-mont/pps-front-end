@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import App from './app.js';
+import App from './App.js';
 import rootReducer from './redux/rootreducer';
 //import CSS from "../static_files/index.css";
 
@@ -36,4 +36,4 @@ class Index extends React.Component{
     }
 }
 
-ReactDOM.render(<Index />, document.getElementById('raiz'));
+ReactDOM.render(<Index />, document.getElementById('root'));

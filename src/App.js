@@ -1,6 +1,11 @@
-import React from "react";
+import React from 'react';
+import RutasInicio from './rutas/rutasinicio';
 
-const App =()=>{
-    return <h1>Hola mundo</h1>
+class App extends React.Component{
+    render(){
+        return(
+            <RutasInicio/>
+        )
+    }
 }
 export default App;
