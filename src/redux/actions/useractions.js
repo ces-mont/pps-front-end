@@ -1,15 +1,14 @@
-export const ADD_TOKEN = 'ADD_TOKEN';
+export const SET_USER = 'SET_USER';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
-export function login(userData){
+export function login(){
     return{
-        type: LOGIN_SUCCESS,
-        payload: userData
+        type: LOGIN_SUCCESS
     }
 }
-export function setToken(token){
+export function setUser(userData){
     return{
-        type: ADD_TOKEN,
-        payload: token
+        type: SET_USER,
+        payload: userData
     }
 }

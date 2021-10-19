@@ -1,10 +1,10 @@
-import {ADD_TOKEN, LOGIN_SUCCESS} from '../actions/useractions';
+import {SET_USER, LOGIN_SUCCESS} from '../actions/useractions';
 
-const initialState = {logged:false, token:'', nombre:'',apellido:'',rol:''}
+const initialState = {logged:false, token:'', nombre:'',apellido:'',rol:'',idUsuario:''}
 
 const userReducer = (state = initialState, action)=>{
     switch(action.type){
-        case ADD_TOKEN:
+        case SET_USER:
             return {
                 ...state,
                 token: action.payload.token,
