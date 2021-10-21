@@ -19,7 +19,7 @@ export default class RutasInicio extends React.Component{
                     <Route path="/accesorios" exact ><Accesorios /></Route>
                     <Route path="/reservarsala" exact component={(props) => <ReservarSala herencia={props} />} />
                     <Route path="/reservaraccesorios" exact ><ReservaAccesorios /></Route>
-                    <Route path="/admin" exact component={Admin} ></Route>
+                    <Route path="/admin" component={Admin} ></Route>
                     <Route path="/calendario" exact ><Calendario /></Route>
                     <Route path="/login" exact><Login /></Route>
                 </Switch>
