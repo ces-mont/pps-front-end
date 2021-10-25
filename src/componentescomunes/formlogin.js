@@ -13,15 +13,13 @@ const formLogin = ({ usuario, loguear, setearUsuario }) => {
     doPreflightCorsPostRequest( "/usuarios/login", JSON.stringify({ nombre: name, contrasenia: pass }), false)
       .then((rta) => {
         console.log("post->usuario/login->rta: ", rta);
-        if (rta.logged) {
-          setearUsuario({ token: rta.token, nombre: rta.nombre,
+        setearUsuario({ 
+            token: rta.token, nombre: rta.nombre,
             apellido: rta.apellido,
             rol: rta.rol,
             idUsuario: rta.idUsuario,
-          });
-        }else{
-            //cartel de error en loggeo
-        }
+        });
+        loguear();
       })
       .catch((err) => {
         console.log("post->usuario/login->err: ", err);

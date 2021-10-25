@@ -39,6 +39,26 @@ export function doPreflightCorsPostRequest(addres, data, withFormData) { // para
             });
     })
 }
+export function doJwtPreflightCorsPutRequest(addres, data, token) { 
+    console.log('doPreflightCorsPutRequest->data: ',data)
+    return new Promise((res, rej) => {
+        let cabecera = { method:'PUT' }
+        cabecera.headers = {  Accept: 'text/html,apllication/xhtml+xml,application/xml,application/json','Content-Type' : 'application/json' , Authorization: 'Bearer ' + token}
+        cabecera.body = data;        
+        fetch(SERVER_URL + addres, cabecera)
+            .then((resp) => {
+                if (!resp.ok) throw new Error(resp.statusText);
+                console.log('resp',resp)
+                return resp//.json();
+            })
+            .then((rta) => {
+                console.log('rta: ',rta)
+                res(rta) })
+            .catch((err) => { 
+                rej(err) 
+            });
+    })
+}
 export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, token) {
     return new Promise((res, rej) => {
         var cabecera = { method:'POST' }
