@@ -1,4 +1,4 @@
-import {SET_USER, LOGIN_SUCCESS} from '../actions/useractions';
+import {SET_USER, LOGIN_SUCCESS, LOGOUT} from '../actions/useractions';
 
 const initialState = {logged:false, token:'', nombre:'',apellido:'',rol:'',idUsuario:''}
 
@@ -15,6 +15,8 @@ const userReducer = (state = initialState, action)=>{
             }
         case LOGIN_SUCCESS:
             return{...state,logged:true}
+        case LOGOUT:
+            return initialState;
         default:
             return state;
     }

@@ -26,17 +26,26 @@ const GestionSalas = ({ usuario }) => {
       });
   }, []);
 
+  const eliminarSala = (indice)=>{
+    console.log('eliminando el indice: ',indice)
+    let salasAux = Array.from(salas);
+    console.log('salasAux ',salasAux);
+    salasAux.splice(indice,1);
+    setSalas(salasAux);
+    console.log('salasAux ',salasAux);
+  }
+
   return (
     <>
       {(usuario.logged && usuario.rol =='ADMI') ? (
         <>
           <h4>Listado de salas -prueb: {prueb}</h4>
-          {salas.map((elem) => (
-            <ItemListaSala actualizarSalas={setSalas} e={elem} key={elem.idSala} />
+          {salas.map((elem, indice) => (
+            <ItemListaSala actualizarSalas={setSalas} sacarSala={eliminarSala} e={elem} key={elem.idSala} indice={indice}/>
           ))}
 
           {creatingSala ? (
-            <FormSala />
+            <FormSala subiendo={setCreatingSala}/>
           ) : (
             <div className="d-grid gap-2 col-6 mx-auto">
               <button className="btn btn-primary active" type="button" onClick={() => setCreatingSala(true)}>

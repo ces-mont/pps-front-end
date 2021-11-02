@@ -45,7 +45,7 @@ const formLogin = ({ usuario, loguear, setearUsuario }) => {
             <input type="password" value={pass} onChange={() => setPass(event.target.value)} name="password" id="idPassword" className="form-control"/>
           </label>
           <br />
-          <button type="submit" className="btn btn-secondary">
+          <button type="submit" className="btn btn-primary active">
             Ingresar
           </button>
         </form>
