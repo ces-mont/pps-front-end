@@ -13,7 +13,8 @@ export default class Mes extends React.Component {
             cantSemanas:0,
             mesActual:1+(new Date()).getMonth(),
             anioActual:(new Date()).getFullYear(),
-            diaActual:(new Date()).getDate(),
+            diaActual:null,//(new Date()).getDate(),
+            //desSeleccionarDia:this.props.limpiar,
         }
         this.ant = this.ant.bind(this);
         this.sig = this.sig.bind(this);
@@ -23,8 +24,16 @@ export default class Mes extends React.Component {
     componentDidMount() {
         this.setDiasDelMes(new Date());
     }
+    /* static getDerivedStateFromProps(propsActual, stateActual){
+        if(propsActual.limpiar !== stateActual.desSeleccionarDia){
+            return({diaActual: null})
+        }
+        return null
+    } */
     setDiasDelMes(fecha){
         console.log('->mes.js->setDiasDelMes->fecha: ',fecha);
+        console.log('->mes.js->setDiasDelMes->props.verdes: ',this.props.verdes);
+
         //console.log('->mes.js->setDiasDelMes->typeof fecha: '+typeof fecha)
         let primeroAux = new Date(fecha.getFullYear(), fecha.getMonth(), 1)
         /* console.log('->mes.js->setDiasDelMes->primeroAux: ',primeroAux);
@@ -82,12 +91,12 @@ export default class Mes extends React.Component {
         console.log('->setDia()->e.target: ',e.target.textContent)
         //console.log('->setDia()->e: ',e)
         this.setState({diaActual:parseInt(e.target.textContent)})
-        //this.props.setDia(parseInt(e.target.textContent));        
+        this.props.setDia(e.target.textContent);        
         //this.props.diaClick(new Date(this.state.anioActual,this.state.mesActual,parseInt(e.target.textContent)))
     }
     render() {
         //console.log('MES.JS->RENDER->diaActual: '+this.state.diaActual+' ->mesActual: '+this.state.mesActual+'->anioActula: '+this.state.anioActual)
-        //console.log('MES.JS->RENDER->state.diasDelMes: ',this.state.diasDelMes)
+        //console.log('MES.JS->RENDER->state: ',this.state)
         return (
             <div>
                 <table id="calendario" style={estiloTabla}>
@@ -102,7 +111,7 @@ export default class Mes extends React.Component {
                                 <td key={i}>{e}</td>)}
                         </tr>
                     </thead>
-                    <tbody><Fa cantSemanas={this.state.cantSemanas} diasDelMes={this.state.diasDelMes} setDia={this.setDia} rojos={this.props.rojos} verdes={this.props.verdes}/></tbody>
+                    <tbody><Fa cantSemanas={this.state.cantSemanas} diasDelMes={this.state.diasDelMes} diaActual={this.state.diaActual} setDia={this.setDia} rojos={this.props.rojos} verdes={this.props.verdes}/></tbody>
                     <tfoot style={estiloFoot}>
                         <tr>
                             <td colSpan={7}>{this.state.anioActual}</td>
@@ -131,7 +140,7 @@ function Fe (props){
         sem.push((props.diasDelMes[props.index+i]===0)?
             <td style={estiloCol} key={props.index+i}></td>
             :
-            <td style={estilo} key={props.index+i} onClick={props.setDia}>{props.diasDelMes[props.index+i]} </td>
+            <td style={(props.diaActual==props.diasDelMes[props.index+i])?estiloSelecc:estilo} key={props.index+i} onClick={props.setDia}>{props.diasDelMes[props.index+i]} </td>
         )
     }
     return <tr style={estiloRow} key={props.index}>{sem}</tr>
@@ -140,7 +149,7 @@ function Fa(props){
     let sems=[];
     for (let i = 0; i<props.cantSemanas; i++) {
         sems.push(
-            <Fe index={i*7} diasDelMes={props.diasDelMes} setDia={props.setDia} key={i} verdes={props.verdes} rojos={props.rojos} />
+            <Fe index={i*7} diasDelMes={props.diasDelMes} setDia={props.setDia} key={i} verdes={props.verdes} rojos={props.rojos} diaActual={props.diaActual} />
         )    
     }
     return sems;
@@ -170,6 +179,16 @@ const estiloVerde={
     width: '3em',
     textAlign:'center',
     margin:'0em 0em 0em 0em'}
+
+const estiloSelecc={
+    background:'rgb(205, 138, 45)',
+    borderStyle:'solid',
+    borderWidth:'0.2em',
+    borderColor:'#db7500',
+    width: '3em',
+    textAlign:'center',
+    margin:'0em 0em 0em 0em'}
+
 const estiloRojo={
     background:'rgb(180,100,91)',
     borderStyle:'solid',
@@ -178,7 +197,6 @@ const estiloRojo={
     textAlign:'center',
     margin:'0em 0em 0em 0em'
 }
-const estiloBlanco={}
 const cabecera ={
     textAlign:'center',
     cursor:'default',
