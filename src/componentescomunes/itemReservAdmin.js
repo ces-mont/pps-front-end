@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { doJwtPreflightCorsPutRequest, doJwtPreflightCorsDeleteRequest } from "../apirequests/requests";
+import { doJwtPreflightCorsPostRequest } from "../apirequests/requests";
 import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, CardGroup, Card, Jumbotron, Badge } from 'react-bootstrap';
 
 class ItemReservAdmin extends React.Component {
@@ -10,6 +10,7 @@ class ItemReservAdmin extends React.Component {
             e: this.props.e,
             pass: null,
             motivo: '',
+            accion:null,
             resolviendo: false,
         }
         this.resolver = this.resolver.bind(this)
@@ -19,7 +20,17 @@ class ItemReservAdmin extends React.Component {
         console.log('e.target.value: ', e.target.value)
         console.log('e.target.accion: ', e.target.accion)
         console.log('this.state.e: ', this.state.e)
-        this.setState({ resolviendo: false })
+        doJwtPreflightCorsPostRequest('/salas/resolverreserva', 
+            JSON.stringify({
+                idSolicitudSala:this.state.e.idSolicitudSala, 
+                accion:this.state.accion}),
+            false,this.props.usuario.token)
+        .then(rta=>{
+          console.log('rta: ',rta);
+          this.setState({ resolviendo: false })
+          this.props.eliminar(this.props.indice)
+        })
+        .catch(err=>console.log('calendario-err: ',err));
     }
 
     render() {
@@ -36,8 +47,8 @@ class ItemReservAdmin extends React.Component {
                     <td>{this.state.e.comentario}</td>
                     <td>
                         <ButtonGroup vertical>
-                            <Button size="sm" onClick={() => this.setState({ resolviendo: true })} value="c">Confirmar</Button>
-                            <Button size="sm" onClick={() => this.setState({ resolviendo: true })} value="r">Rechazar</Button>
+                            <Button size="sm" onClick={() => this.setState({ resolviendo: true ,accion:event.target.value})} value="c">Confirmar</Button>
+                            <Button size="sm" onClick={() => this.setState({ resolviendo: true ,accion:event.target.value })} value="r">Rechazar</Button>
                         </ButtonGroup>
                     </td>
                 </tr>

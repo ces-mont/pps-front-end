@@ -4,8 +4,8 @@ import Plantilla from '../componentescomunes/plantilla';
 const Home = ()=>{
     return(
         <Plantilla>
-            <h2>U.T.N. - Laboratorios</h2>
-            <p>El Departamento de la carrera de Ingeniería en Sistemas de Información (DISI) de la U.T.N. – F.R.B.A. cuenta con los Laboratorios de Sistemas de Información
+            <h2 style={{margin:'0.7em 0 0.7em 0'}}>Laboratorios</h2>
+            <p style={{textAlign:'justify',lineHeight:'2em'}}>El Departamento de la carrera de Ingeniería en Sistemas de Información (DISI) de la U.T.N. – F.R.B.A. cuenta con los Laboratorios de Sistemas de Información
                  (DISILAB) cuya misión es brindar a los alumnos y docentes de la carrera el espacio, los servicios y disponibilidad tecnológica necesaria para el correcto 
                  desarrollo de sus actividades académicas y de investigación.
                 DISILAB está compuesto por 7 laboratorios distribuidos en dos sedes de la facultad (Medrano y Campus), 100 puestos de trabajo, 4 servidores y posee capacidad 

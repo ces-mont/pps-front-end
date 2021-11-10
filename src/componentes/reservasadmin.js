@@ -20,7 +20,8 @@ export class ReservasAdmin extends React.Component {
 
       solicitudes: [],
     }
-    this.setMes = this.setMes.bind(this)
+    this.setMes = this.setMes.bind(this);
+    this.eliminar = this.eliminar.bind(this);
   }
   componentDidMount() {
     //doJwtCorsGetRequest('/salas/reservaspendientes/',this.props.usuario.token)
@@ -120,9 +121,15 @@ export class ReservasAdmin extends React.Component {
       this.setState({ diashabiles: [] })
     }
   }
-  accionar(e){}
+  eliminar(indice){
+    console.log('eliminando el indice: ',indice)
+    let solsAux = Array.from(this.state.solicitudes);
+    //console.log('salasAux ',salasAux);
+    solsAux.splice(indice,1);
+    this.setState({solicitudes:solsAux});
+    //console.log('salasAux ',salasAux);
+  }
   render() {
-    console.log('state: ', this.state)
     return (
       <div>
         <h2>Gestión de solicitudes de turnos</h2>
@@ -142,12 +149,10 @@ export class ReservasAdmin extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.solicitudes.map(e => <ItemReservAdmin e={e}/>)
-            }
+            { this.state.solicitudes.map((e,i) => <ItemReservAdmin e={e} eliminar={this.eliminar} indice={i} key={e.idSolicitudSala}/>) }
           </tbody>
         </Table>
       </div>
-
     )
   }
 }

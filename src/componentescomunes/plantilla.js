@@ -2,13 +2,17 @@ import React from 'react';
 import MenuPrincipal from './menuprincipal';
 import Cabecera from './cabecera';
 import Pie from './pie';
+import Container from 'react-bootstrap/Container';
+
 
 const Plantilla = ({ children }) => 
         <>
             <Cabecera />
-            <div className="container">
+            <div style={{paddingBottom:'6.5em'}}>
+                <Container>
                 <MenuPrincipal />
                 {children}
+                </Container>
             </div>
             <Pie />
         </>
