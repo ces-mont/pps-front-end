@@ -11,8 +11,6 @@ const GestionSalas = ({ usuario }) => {
   const [modifing, setModifing] = useState(false);*/
   const [confirmingModify, setConfirmingModify] = useState(false);
   const [salas, setSalas] = useState([]);
-  const [idSala, setIdSala] = useState(null);
-  const [prueb, setPrueb] = useState(null);
 
   useEffect(() => {
     doSimpleCorsGetRequest("/salas")
@@ -39,7 +37,7 @@ const GestionSalas = ({ usuario }) => {
     <>
       {(usuario.logged && usuario.rol =='ADMI') ? (
         <>
-          <h4>Listado de salas -prueb: {prueb}</h4>
+          <h4>Listado de salas </h4>
           {salas.map((elem, indice) => (
             <ItemListaSala actualizarSalas={setSalas} sacarSala={eliminarSala} e={elem} key={elem.idSala} indice={indice}/>
           ))}

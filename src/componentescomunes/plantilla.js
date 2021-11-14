@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 const Plantilla = ({ children }) => 
         <>
             <Cabecera />
-            <div style={{paddingBottom:'6.5em'}}>
+            <div style={{paddingBottom:'7.5em'}}>
                 <Container>
                 <MenuPrincipal />
                 {children}

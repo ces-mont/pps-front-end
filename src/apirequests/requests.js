@@ -66,7 +66,7 @@ export function doJwtPreflightCorsPostRequest(direccion, data, withFormData, tok
         cabecera.headers = {'Access-Control-Request-Headers': 'Authorization', Accept: 'text/html,application/xhtml+xml,application/xml,application/json', Authorization: 'Bearer ' + token }
         if (!withFormData) cabecera.headers['Content-Type'] = 'application/json';
         cabecera.body = data;   
-        console.log('jwtpreflicgthcors-post-> ',cabecera.headers)    
+        console.log('-->doTwtPreflightCorsPostRequest-> ',cabecera.headers)    
         fetch(SERVER_URL + direccion, cabecera)
             .then((resp) => {
                 if (!resp.ok) {

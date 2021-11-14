@@ -8,7 +8,7 @@ const ItemListaAcc = ({ e, usuario, sacarAcc, indice }) => {
   const [estadoAcc, setEstadoAcc] = useState(e);
   const [showModal, setShowModal] = useState(false);
 
-  const actualizarSala = (ev) => {
+  const actualizarAcc = (ev) => {
     ev.preventDefault();
     doJwtPreflightCorsPutRequest("/accesorios", JSON.stringify(estadoAcc), usuario.token)
       .then((rta) => {
@@ -23,7 +23,7 @@ const ItemListaAcc = ({ e, usuario, sacarAcc, indice }) => {
     doJwtPreflightCorsDeleteRequest('/accesorios', JSON.stringify({idAcc:estadoAcc.idAcc}), usuario.token)
       .then(rta=>{
         console.log('rta-> ',rta);
-        sacarSala(indice)
+        sacarAcc(indice)
       })
       .catch(err=>console.log('err->',err));
   }
@@ -104,9 +104,7 @@ const ItemListaAcc = ({ e, usuario, sacarAcc, indice }) => {
                 <div className="card-body">
                   <p className="card-text">{estadoAcc.descripcionLarga}</p>
                   <p className="card-text">idAccesorio {estadoAcc.idAccesorio}</p>
-                  <p className="card-text">
-                    <small className="text-muted">{estadoAcc.ubicacion}</small>
-                  </p>
+                  <p className="card-text">Cantidad {estadoAcc.cantidad}</p>
                 </div>
                 {showModal?
                   <div className="card text-white bg-danger">
@@ -132,4 +130,4 @@ const ItemListaAcc = ({ e, usuario, sacarAcc, indice }) => {
 };
 
 const mapStateToProps = (state) => ({ usuario: state.userReducer });
-export default connect(mapStateToProps, null)(ItemListaSala);
+export default connect(mapStateToProps, null)(ItemListaAcc);

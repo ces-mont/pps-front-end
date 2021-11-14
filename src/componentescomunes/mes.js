@@ -70,6 +70,8 @@ export default class Mes extends React.Component {
             this.setState({mesActual:this.state.mesActual+1});
             this.props.setMes(1+this.state.mesActual,this.state.anioActual);
         }
+        this.setState({diaActual:null}); //---------->OJO
+        this.props.setDia(null); //-------------->OJO   
         this.setDiasDelMes(dia);
     }
     ant(){
@@ -85,6 +87,8 @@ export default class Mes extends React.Component {
             this.setState({mesActual:this.state.mesActual-1,elemSem:[]});
             this.props.setMes(+this.state.mesActual-1,this.state.anioActual);
         }
+        this.setState({diaActual:null}); //---------->OJO
+        this.props.setDia(null); //-------------->OJO   
         this.setDiasDelMes(dia)
     }
     setDia(e){
@@ -111,8 +115,11 @@ export default class Mes extends React.Component {
                                 <td key={i}>{e}</td>)}
                         </tr>
                     </thead>
-                    <tbody><Fa cantSemanas={this.state.cantSemanas} diasDelMes={this.state.diasDelMes} diaActual={this.state.diaActual} setDia={this.setDia} rojos={this.props.rojos} verdes={this.props.verdes}/></tbody>
-                    <tfoot style={estiloFoot}>
+                    <tbody>
+                        <Fa cantSemanas={this.state.cantSemanas} diasDelMes={this.state.diasDelMes} diaActual={this.state.diaActual} setDia={this.setDia} 
+                            rojos={this.props.rojos} verdes={this.props.verdes}/>
+                    </tbody>
+                    <tfoot style={cabecera}>
                         <tr>
                             <td colSpan={7}>{this.state.anioActual}</td>
                         </tr>
@@ -124,7 +131,7 @@ export default class Mes extends React.Component {
 }
 function Fe (props){
     let sem=[];
-    let estilo = estiloCol
+    let estilo = estiloLimpio
     //console.log('->mes.js->Fe->props.diasDelMes[props.index]: ',props.diasDelMes[props.index])
     for (let i=0; i<7;i++){
         //console.log('--->mes.js->Fe->dia: '+props.diasDelMes[props.index+i])
@@ -134,11 +141,11 @@ function Fe (props){
             estilo = estiloVerde;
             if(props.rojos.includes( props.diasDelMes[props.index+i])) estilo = estiloRojo;
         }else{
-            estilo = estiloCol
+            estilo = estiloLimpio
         }
         //console.log('--->mes.js->Fe->dia: '+props.diasDelMes[props.index+i]+ 'con estilo->',estilo)
         sem.push((props.diasDelMes[props.index+i]===0)?
-            <td style={estiloCol} key={props.index+i}></td>
+            <td style={estiloLimpio} key={props.index+i}></td>
             :
             <td style={(props.diaActual==props.diasDelMes[props.index+i])?estiloSelecc:estilo} key={props.index+i} onClick={props.setDia}>{props.diasDelMes[props.index+i]} </td>
         )
@@ -156,63 +163,76 @@ function Fa(props){
 }
 
 const estiloTabla = {
+    fontFamily:'Saira Extra Condensed',
+    fontSize:'2ex',
+    //fontWeight:'',
+    //letterSpacing:'',
+    borderColor:'black',
     display: 'table',
     borderStyle:'solid',
     borderWidth:'2px'
 }
 const estiloRow ={
+    borderColor:'black',
     borderStyle:'solid'   ,
     borderWidth:'2px' 
 }
-const estiloCol ={
-    borderColor:'rgb(100,120,111)',
+const estiloLimpio ={
+    borderColor:'black',
     borderStyle:'solid',
-    borderWidth:'0.05em',
+    borderWidth:'1px',
     width: '3em',
     textAlign:'center',
-    margin:'0em 0em 0em 0em'
 }
 const estiloVerde={
-    background:'rgb(80,150,91)',
+    borderColor:'black',
+    background:'rgb(118,167,105)',
     borderStyle:'solid',
-    borderWidth:'0.05em',
+    borderWidth:'1px',
     width: '3em',
     textAlign:'center',
     margin:'0em 0em 0em 0em'}
 
 const estiloSelecc={
-    background:'rgb(205, 138, 45)',
+    background:'rgb(210, 220, 120)',
     borderStyle:'solid',
-    borderWidth:'0.2em',
-    borderColor:'#db7500',
+    borderWidth:'3px',
+    borderColor:'rgb(130,70,70)',
     width: '3em',
     textAlign:'center',
     margin:'0em 0em 0em 0em'}
 
 const estiloRojo={
-    background:'rgb(180,100,91)',
+    borderColor:'black',
+    background:'rgb(185,100,85)',
     borderStyle:'solid',
-    borderWidth:'0.05em',
+    borderWidth:'1px',
     width: '3em',
     textAlign:'center',
     margin:'0em 0em 0em 0em'
 }
 const cabecera ={
+    fontWeight:'500',
     textAlign:'center',
     cursor:'default',
-    background:'rgb(177, 194, 206)'
+    background:'rgb(205, 214, 226)'
 }
 const estiloSig={
+    fontFamily:'Roboto Mono',
+    fontWeight:'600',
+    fontSize:'2.5ex',
     //float:'right'
     margin:'0 0 0 0'
 }
 const estiloAnt={
+    fontFamily:'Roboto Mono',
+    fontWeight:'600',
+    fontSize:'2.5ex',
     //float:'left'
     margin:'0 0 0 0'
 }
 const estiloMes={
+    fontFamily:'Lato',
+    fontSize:'2.5ex',
     colspan:'5'
-}
-const estiloFoot={
-    textAlign:'center'
 }

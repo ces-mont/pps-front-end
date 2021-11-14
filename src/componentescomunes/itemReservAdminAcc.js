@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { doJwtPreflightCorsPostRequest } from "../apirequests/requests";
 import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, CardGroup, Card, Jumbotron, Badge } from 'react-bootstrap';
 
-class ItemReservAdmin extends React.Component {
+class ItemReservAdminAcc extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,7 +13,7 @@ class ItemReservAdmin extends React.Component {
             accion:null,
             resolviendo: false,
         }
-        this.resolver = this.resolver.bind(this)
+        this.resolver = this.resolver.bind(this);
     }
     resolver = (e) => {
         console.log('e.target: ', e.target)
@@ -36,20 +36,20 @@ class ItemReservAdmin extends React.Component {
     render() {
         return (
             <>
-                <tr className={(this.props.id==this.props.idSalaSeleccionada)?'table-danger':null} onClick={this.props.selecc}>
-                    <td>{this.state.e.Sala.descripcionCorta}</td>
+                <tr className={(this.props.id==this.props.idAccSeleccionado)?'table-danger':null} onClick={this.props.selecc}>
+                    <td>{this.state.e.Accesorio.descripcionCorta}</td>
                     <td>{this.state.e.fechaSolicitud}</td>
                     <td>{this.state.e.especialidad}</td>
                     <td>{this.state.e.materia}</td>
                     <td>{this.state.e.Usuario.nombre} {this.state.e.Usuario.apellido}</td>
                     <td>{this.state.e.fechaPedida}</td>
                     <td>{this.state.e.horaInicio}-{this.state.e.horaFin}</td>
-                    <td>{this.state.e.cantidadAlumnos}</td>
+                    <td>{this.state.e.cantidad}</td>
                     <td>{this.state.e.comentario}</td>
                     <td>
                         <ButtonGroup vertical>
-                            <Button size="sm" disabled={(this.props.id!==this.props.idSalaSeleccionada)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value})} value="c">Confirmar</Button>
-                            <Button size="sm" disabled={(this.props.id!==this.props.idSalaSeleccionada)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value })} value="r">Rechazar</Button>
+                            <Button size="sm" disabled={(this.props.id!==this.props.idAccSeleccionado)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value})} value="c">Confirmar</Button>
+                            <Button size="sm" disabled={(this.props.id!==this.props.idAccSeleccionado)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value })} value="r">Rechazar</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
@@ -74,4 +74,4 @@ class ItemReservAdmin extends React.Component {
 };
 
 const mapStateToProps = (state) => ({ usuario: state.userReducer });
-export default connect(mapStateToProps, null)(ItemReservAdmin);
+export default connect(mapStateToProps, null)(ItemReservAdminAcc);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { doSimpleCorsGetRequest } from "../apirequests/requests";
-import FormAcc from "../componentescomunes/formSala";
+import FormAcc from "../componentescomunes/formAcc";
 import ItemListaAcc from "../componentescomunes/itemListaSala";
 import { connect } from "react-redux";
 import FormLogin from "../componentescomunes/formlogin";

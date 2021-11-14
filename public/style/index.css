@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600&family=Roboto:wght@300;400;500&display=swap');
-@font-face {
-    font-family: 'Gotham';
-    src: url('GothamMedium.ttf') format('ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400&family=Lato:wght@300;400;700&family=Mohave:wght@300;400;500&family=Open+Sans+Condensed:wght@300&family=Roboto+Mono:wght@300;400;500;600&family=Roboto:wght@300;400;500&family=Saira+Extra+Condensed:wght@100;300;400;500&family=Ubuntu+Condensed&display=swap');
 * {
 	margin: 0;
 	padding: 0;
@@ -58,7 +53,16 @@
     color:#fff !important;
     margin-top: 2.5em;
     margin-bottom: 0em;
-    padding: 0.5em 0em 0.2em 0em;
     position: sticky;
+}
+.nav-link{
+    color: red;
+}
+#cabeceraTabla:active{
+    background-color: red;
+}
+/*
+.active>span{
+    background-color: aqua;
 }
 /*#idIconosSociales1:nth-child(1n){}*/

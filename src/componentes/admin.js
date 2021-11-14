@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import RutasAdmin from "../rutas/rutasadmin";
 import { connect } from "react-redux";
 import FormLogin from "../componentescomunes/formlogin";
+import { IoIosPerson, IoMdSearch } from 'react-icons/io';
+import { Nav,Form, Col, Button, Row, CardGroup, Card } from 'react-bootstrap';
 
 class Admin extends React.Component {
   render() {
@@ -11,20 +13,20 @@ class Admin extends React.Component {
       <Plantilla>
         {this.props.usuario.logged && this.props.usuario.rol == "ADMI" ? (
           <>
-            <nav className="nav nav-tabs nav-fill">
-              <div className="nav-item">
+            <Nav fill variant="tabs" defaultActiveKey="/admin/calendario">
+              <Nav.Item style={estiloMenuAdmin}>
                 <NavLink className="nav-link" to="/admin/calendario"> Gestionar Calendario </NavLink>
-              </div>
-              <div className="nav-item">
+              </Nav.Item>
+              <Nav.Item style={estiloMenuAdmin}>
                 <NavLink className="nav-link" to="/admin/reservas"> Gestionar Reservas </NavLink>
-              </div>
-              <div className="nav-item">
+              </Nav.Item>
+              <Nav.Item style={estiloMenuAdmin}>
                 <NavLink className="nav-link" to="/admin/salas"> Gestionar Salas </NavLink>
-              </div>
-              <div className="nav-item">
+              </Nav.Item>
+              <Nav.Item style={estiloMenuAdmin}>
                 <NavLink className="nav-link" to="/admin/accesorios"> Gestionar Accesorios </NavLink>
-              </div>
-            </nav>
+              </Nav.Item>
+            </Nav>
             <RutasAdmin />
           </>
         ) : (
@@ -37,6 +39,9 @@ class Admin extends React.Component {
     );
   }
 }
-
+const estiloMenuAdmin ={
+  color:'rgb(0,0,0) !important',
+  fontSize:'1em'
+}
 const mapStateToProps = (state) => ({ usuario: state.userReducer });
 export default connect(mapStateToProps, null)(Admin);

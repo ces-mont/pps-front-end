@@ -7,7 +7,7 @@ import Turnos from "../componentescomunes/turnos";
 import { doSimpleCorsGetRequest, doJwtCorsGetRequest, doJwtPreflightCorsPostRequest } from "../apirequests/requests";
 import { connect } from "react-redux";
 //import { login, setToken } from '../redux/actions/useractions';
-import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, CardGroup, Card, Jumbotron } from 'react-bootstrap';
+import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
 import Mes from "../componentescomunes/mes";
 
 class ReservaSala extends React.Component {
@@ -21,7 +21,7 @@ class ReservaSala extends React.Component {
       diasnohabiles: [], //aparecerán en rojo en el calendario
       diashabiles: {},
       salaSelec: null,
-      inicioPeriodo:'',
+      inicioPeriodo: '',
       finPeriodo: '',
       diasXmes: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
 
@@ -33,13 +33,12 @@ class ReservaSala extends React.Component {
       horaFin: "7:00",
       comentario: "",
 
-      showModal:false,
-      limpiar:0,
+      showModal: false,
+      limpiar: 0,
 
       respuesta: "",
       horarios: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       msj: "",
-      reservando: false,
       submitok: false,
     };
     this.setMes = this.setMes.bind(this);
@@ -55,11 +54,6 @@ class ReservaSala extends React.Component {
   }
   componentDidMount() {
     doJwtCorsGetRequest("/salas/")
-      .then((rta) => {
-        console.log("Rta-: ", rta);
-        rta.forEach((element) => { element.activo = false; });
-        return rta;
-      })
       .then((rta) => {
         this.setState({ salas: rta });
         console.log("Rta->salas: " + rta);
@@ -147,12 +141,12 @@ class ReservaSala extends React.Component {
   }
   cierraModal() {
     console.log('cierra modal')
-        if (this.state.submitok) {
-            let salas = this.state.salas;
-            salas.forEach(elem => { elem.activo = false });
-        }
-        this.setState({ showModal: false, limpiar: ++this.state.limpiar });
-  } 
+    /*     if (this.state.submitok) {
+          let salas = this.state.salas;
+          salas.forEach(elem => { elem.activo = false });
+        } */
+    this.setState({ showModal: false, limpiar: ++this.state.limpiar });
+  }
   /*async setSala(e) {
     let salas = this.state.salas;
     console.log("-->setSala->e.name: " + e.target.name);
@@ -174,7 +168,7 @@ class ReservaSala extends React.Component {
   //setSala(id){}
   setDia(d) {
     console.log("--setDia: " + d);
-    this.setState({diaSelec: d})
+    this.setState({ diaSelec: d })
     if (this.state.salaSelec !== null) { this.consultaReservas(d); }
   }
   consultaReservas(dia) {
@@ -189,8 +183,8 @@ class ReservaSala extends React.Component {
           let inicio = (+hora0[0] - 7) * 2;
           let fin = (+hora1[0] - 7) * 2;
           if (+hora0[1] > 29) { inicio++; }
-          if (+hora1[1] === 0) { 
-            fin--;   
+          if (+hora1[1] === 0) {
+            fin--;
           } else if (+hora1[1] > 30) {
             fin++;
           }
@@ -203,9 +197,9 @@ class ReservaSala extends React.Component {
       })
       .catch();
   }
-/*   manejarCambio(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  } */
+  /*   manejarCambio(e) {
+      this.setState({ [e.target.name]: e.target.value });
+    } */
   chequearCampos() {
     if (this.state.especialidad === "") {
       this.setState({ msj: "Indique una especialidad" });
@@ -239,23 +233,27 @@ class ReservaSala extends React.Component {
         this.setState({ msj: "El horario elegido no es correcto" });
         this.setState({ showModal: true });
       } else {
-        if (+horaInicio[1] === 30) {inicio++;}
-        if (+horaFin[1] === 0) { fin--;}
+        if (+horaInicio[1] === 30) { inicio++; }
+        if (+horaFin[1] === 0) { fin--; }
         let horarios = this.state.horarios.slice(inicio, fin + 1);
         console.log("horarios[]:", horarios);
-        if ( horarios.some((e) => {return e === 1;})) {
+        if (horarios.some((e) => { return e === 1; })) {
           console.log("========>OCUPADO!!!");
           this.setState({ msj: "El horario elegido o parte de él ya está reservado" });
           this.setState({ showModal: true });
         } else {
           console.log("========>NO OCUPADO!!!");
-          doJwtPreflightCorsPostRequest( "/salas/reservar", JSON.stringify({ idSala: this.state.salaSelec, especialidad: this.state.especialidad, 
-            materia: this.state.materia, comentario: this.state.comentario, dia: (this.state.anioSelec+'-'+this.state.mesSelec+'-'+this.state.diaSelec), 
-            horaInicio: this.state.horaInicio, horaFin: this.state.horaFin, cantAlumnos: this.state.cantAlumnos,}), false, this.props.user.token )
+          doJwtPreflightCorsPostRequest("/salas/reservar", JSON.stringify({
+            idSala: this.state.salaSelec, especialidad: this.state.especialidad,
+            materia: this.state.materia, comentario: this.state.comentario, dia: (this.state.anioSelec + '-' + this.state.mesSelec + '-' + this.state.diaSelec),
+            horaInicio: this.state.horaInicio, horaFin: this.state.horaFin, cantAlumnos: this.state.cantAlumnos,
+          }), false, this.props.user.token)
             .then((rta) => {
               console.log("Rta-: " + JSON.stringify(rta));
-              this.setState({ msj: rta.msj, showModal: true, submitok: true, diaSelec: null, salaSelec: null, reservando: false,diaElegido: "",
-              materia: "", especialidad: "", cantAlumnos: 0, horaInicio: "7:00", horaFin: "7:00", comentario: "", });
+              this.setState({
+                msj: rta.msj, showModal: true, submitok: true, diaSelec: null, salaSelec: null, reservando: false, diaElegido: "",
+                materia: "", especialidad: "", cantAlumnos: 0, horaInicio: "7:00", horaFin: "7:00", comentario: "",
+              });
               return rta;
             })
             .catch();
@@ -263,113 +261,119 @@ class ReservaSala extends React.Component {
       }
     }
   }
-/*   reservar(e) {
-    e.preventDefault();
-    console.log("->reservar: ");
-  } */
+  /*   reservar(e) {
+      e.preventDefault();
+      console.log("->reservar: ");
+    } */
+
+
   render() {
-    //console.log("this.state.salaSelec: ", this.state.salaSelec);
+    console.log("this.state: ", this.state);
     console.log("this.state.limpiar: ", this.state.limpiar);
     return (
       <Plantilla>
-        <div id="titulo">
-          <h3>Reserva de salas</h3>
-          <p>DISILab ofrece un amplio horario donde los distintos laboratorios están disponible para su uso</p>
+        <div id="titulo" className="text-center fw-light mb-5 mt-4">
         </div>
         <div className="container">
-          <div className="row">
-            <div className="col list-group">
-              <h3>Seleccionar sala</h3>
-              {this.state.salas.map((elem) => (
-                <a href="#" className="list-group-item list-group-item-action" aria-current="true" key={elem.idSala} onClick={() => this.setState({ salaSelec: elem.idSala })}>
-                  <div className="d-flex w-100 justify-content-between">
-                    <div className="col-md-1">
-                      <img src={elem.urlImagen} className="img-fluid rounded-start" alt="..." />
-                    </div>
-                    <h6 className="mb-1">{elem.descripcionCorta}</h6>
-                    <small>3 days ago</small>
-                  </div>
-                  <p className="mb-1">{elem.descripcionLarga}</p>
-                  <p className="mb-1">{elem.tipo}</p>
-                  <small>ubicación: {elem.ubicacion}</small>
-                </a>)
-              )}
-            </div>
+          <Row>
+            <Col xs={7}>
+              <h4 className="fw-normal">1. Seleccione una sala</h4>
+              <div className="list-group">
+                {this.state.salas.map((elem) => (
+                  <a href="#" className="list-group-item list-group-item-action p-0 " aria-current="true" key={elem.idSala} onClick={(e) => { this.setState({ salaSelec: elem.idSala }); }}>
+                    <Row>
+                      <Col xs={2}>
+                        <img src={elem.urlImagen} style={{ maxWidth: '6em' }} className="img-fluid rounded-start" alt="..." />
+                      </Col>
+                      <Col>
+                        <h6 className="mb-1">{elem.descripcionCorta} ({elem.tipo}) {(this.state.salaSelec == elem.idSala) ? <Badge pill bg="secondary">seleccionada</Badge> : null}</h6>
+                        <p className="mb-1 fw-light lh-1">{elem.descripcionLarga}</p>
+                        <small className="mb-1 fw-light lh-1">ubicación: {elem.ubicacion} </small>
+                      </Col>
+                    </Row>
+                  </a>)
+                )}
+              </div>
+            </Col>
 
-            <div className="col">
-              <h3>Seleccionar día</h3>
-              <Mes setDia={this.setDia} setMes={this.setMes} setAnio={(a) => this.setState({ anioSelec: a })} key={this.state.limpiar} rojos={this.state.diasnohabiles} verdes={this.state.diashabiles}/>
-            </div>
+            <Col>
+              <h4 className="fw-normal">2. Seleccione un día</h4>
+              <Mes setDia={this.setDia} setMes={this.setMes} setAnio={(a) => this.setState({ anioSelec: a })} key={this.state.limpiar} rojos={this.state.diasnohabiles} verdes={this.state.diashabiles} />
+              <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
+                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
+                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+              </table>
+            </Col>
 
-            <div className="col"> <Turnos horarios={this.state.horarios} /> </div>
-          </div>
-
-          <div>
-            <Form onSubmit={this.reservar}>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Especialidad</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" className="form-control" value={this.state.especialidad} onChange={(e) => this.setState({ especialidad: e.target.value })} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Materia</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" className="form-control" value={this.state.materia} onChange={(e) => this.setState({ materia: e.target.value })} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Cantidad de alumnos</label>
-                </div>
-                <div className="col-auto">
-                  <input type="number" className="form-control" value={this.state.cantAlumnos} onChange={() => this.setState({ cantAlumnos: event.target.value })}/>
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Comentario</label>
-                </div>
-                <div className="col-auto">
-                  <textarea className="form-control" placeholder="si desea puede hacer un comentario" onChange={() => this.setState({ comentario: event.target.value })} maxLength={80} value={this.state.comentario} type="textarea"/>
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Hora Inicio</label>
-                </div>
-                <div className="col-auto">
-                  <select className="form-select" value={this.state.horaInicio} onChange={(e) => this.setState({ horaInicio: e.target.value })}>
-                    {Horarios.map((e) => ( <option value={e}>{e}</option>   ))}
-                  </select>
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Hora Finalizacion</label>
-                </div>
-                <div className="col-auto">
-                  <select className="form-select" value={this.state.horaFin} onChange={(e) => this.setState({ horaFin: e.target.value })}>
-                    {Horarios.map((e) => ( <option value={e}>{e}</option> ))}
-                  </select>
-                </div>
-              </div>
-              <button type="submit" className="btn btn-primary active"> Solicitar reserva </button>
-            </Form>
-          </div>
-
-          <div className="mt-4">
-            {this.state.salaElegida !== null && !this.state.reservando && this.state.diaElegido !== "" ? (
-              <div>
-                <button onClick={() => { this.setState({ reservando: true }); }}> Hacer Reserva </button>
-              </div>
-            ) : null}
-          </div>
+            <Col className="pt-4">
+              <Turnos horarios={this.state.horarios} />
+              <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
+                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(50,170,80)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Libre</h6></td></tr>
+                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(190,50,30)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Reservado</h6></td></tr>
+              </table>
+            </Col>
+          </Row>
+          {(this.state.diaSelec != null && this.state.salaSelec != null) ?
+            <Row>
+              <h4 className="fw-normal mt-5">3. Complete los siguientes datos</h4>
+              <Form onSubmit={this.reservar} className="mt-1 p-3 border">
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Especialidad</label>
+                  </Col>
+                  <Col xs={6}>
+                    <input type="text" className="form-control" value={this.state.especialidad} onChange={(e) => this.setState({ especialidad: e.target.value })} />
+                  </Col>
+                </Row>
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Materia</label>
+                  </Col>
+                  <Col xs={6}>
+                    <input type="text" className="form-control" value={this.state.materia} onChange={(e) => this.setState({ materia: e.target.value })} />
+                  </Col>
+                </Row>
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Cantidad de alumnos</label>
+                  </Col>
+                  <Col xs={2}>
+                    <input type="number" className="form-control" value={this.state.cantAlumnos} onChange={() => this.setState({ cantAlumnos: event.target.value })} />
+                  </Col>
+                </Row>
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Comentario</label>
+                  </Col>
+                  <Col xs={9}>
+                    <textarea className="form-control" placeholder="si desea puede adjuntar un comentario" onChange={() => this.setState({ comentario: event.target.value })} maxLength={80} value={this.state.comentario} type="textarea" />
+                  </Col>
+                </Row>
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Hora Inicio</label>
+                  </Col>
+                  <Col xs={2}>
+                    <select className="form-select" value={this.state.horaInicio} onChange={(e) => this.setState({ horaInicio: e.target.value })}>
+                      {Horarios.map((e) => (<option value={e}>{e}</option>))}
+                    </select>
+                  </Col>
+                </Row>
+                <Row className="mb-1">
+                  <Col xs={3}>
+                    <label className="col-form-label">Hora Finalizacion</label>
+                  </Col>
+                  <Col xs={2}>
+                    <select className="form-select" value={this.state.horaFin} onChange={(e) => this.setState({ horaFin: e.target.value })}>
+                      {Horarios.map((e) => (<option value={e}>{e}</option>))}
+                    </select>
+                  </Col>
+                </Row>
+                <button type="submit" className="btn btn-secondary btn-sm active mt-2 ml-4"> Solicitar reserva </button>
+              </Form>
+            </Row> : null}
         </div>
+
         <Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
           <Modal.Header closeButton> <Modal.Title>Solicitud de reserva</Modal.Title> </Modal.Header>
           <Modal.Body> <p style={{ color: 'rgb(5,6,28' }}>{this.state.msj}</p> </Modal.Body>
