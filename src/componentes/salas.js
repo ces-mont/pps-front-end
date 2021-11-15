@@ -31,12 +31,12 @@ class Salas extends React.Component {
                             <Card key={elem.idSala} className="me-2 mt-2 ">
                                 <Card.Header as="h5" className="text-center">{elem.descripcionCorta}</Card.Header>
                                 <Card.Img variant="top" src={elem.urlImagen} className="fluid" />
-                                <Card.Body>
-                                    <Card.Title>Descripcion</Card.Title>
-                                    <Card.Text><small className="text-muted">{elem.descripcionLarga}</small></Card.Text>
+                                <Card.Body className="my-0 py-0">
+                                    <Card.Title className="mt-1 py-0">Descripcion</Card.Title>
+                                    <Card.Text className="my-0 py-0"><small className="text-muted my-0 py-0" style={estilo1}>{elem.descripcionLarga}</small></Card.Text>
                                 </Card.Body>
-                                <Card.Body>
-                                    <Card.Title as="h6">Tipo de sala: <small className=" fw-normal text-muted">{elem.tipo}</small></Card.Title>
+                                <Card.Body style={estilo1} className="my-0 py-0">
+                                    <Card.Title as="h6" className="mt-2 py-0">Tipo de sala: <small className=" fw-normal text-muted my-0 py-0">{elem.tipo}</small></Card.Title>
                                 </Card.Body>
                                 <Card.Footer>
                                     <Card.Text className="text-center" ><small className="fw-light text-muted">Ubicación: {elem.ubicacion}</small></Card.Text>
@@ -48,6 +48,10 @@ class Salas extends React.Component {
             </Plantilla>
         )
     }
+}
+
+const estilo1={
+    lineHeight:'1.2em'
 }
 
 export default Salas

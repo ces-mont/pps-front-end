@@ -300,16 +300,20 @@ class ReservaSala extends React.Component {
               <h4 className="fw-normal">2. Seleccione un día</h4>
               <Mes setDia={this.setDia} setMes={this.setMes} setAnio={(a) => this.setState({ anioSelec: a })} key={this.state.limpiar} rojos={this.state.diasnohabiles} verdes={this.state.diashabiles} />
               <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
+                <tbody>
                 <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
                 <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+              </tbody>
               </table>
             </Col>
 
             <Col className="pt-4">
               <Turnos horarios={this.state.horarios} />
               <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
+                <tbody>
                 <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(50,170,80)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Libre</h6></td></tr>
                 <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(190,50,30)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Reservado</h6></td></tr>
+              </tbody>
               </table>
             </Col>
           </Row>

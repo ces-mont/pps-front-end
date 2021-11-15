@@ -36,7 +36,7 @@ class ItemReservAdmin extends React.Component {
     render() {
         return (
             <>
-                <tr className={(this.props.id==this.props.idSalaSeleccionada)?'table-danger':null} onClick={this.props.selecc}>
+                <tr className={(this.props.id==this.props.idSolicitudSalaSeleccionada)?'table-dark':null} onClick={this.props.selecc}>
                     <td>{this.state.e.Sala.descripcionCorta}</td>
                     <td>{this.state.e.fechaSolicitud}</td>
                     <td>{this.state.e.especialidad}</td>
@@ -47,15 +47,16 @@ class ItemReservAdmin extends React.Component {
                     <td>{this.state.e.cantidadAlumnos}</td>
                     <td>{this.state.e.comentario}</td>
                     <td>
+                        {(this.props.hayChoque>0)&&(this.props.id==this.props.idSolicitudSalaSeleccionada)?<Badge bg="danger" className="py-1 my-1">Horarios ya reservados</Badge>:null}
                         <ButtonGroup vertical>
-                            <Button size="sm" disabled={(this.props.id!==this.props.idSalaSeleccionada)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value})} value="c">Confirmar</Button>
-                            <Button size="sm" disabled={(this.props.id!==this.props.idSalaSeleccionada)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value })} value="r">Rechazar</Button>
+                            <Button size="sm" disabled={(this.props.id!==this.props.idSolicitudSalaSeleccionada)||((this.props.hayChoque>0)&&(this.props.id==this.props.idSolicitudSalaSeleccionada))} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value})} value="c">Confirmar</Button>
+                            <Button size="sm" disabled={(this.props.id!==this.props.idSolicitudSalaSeleccionada)} onClick={() => this.setState({ resolviendo: true ,accion:event.target.value })} value="r">Rechazar</Button>
                         </ButtonGroup>
                     </td>
                 </tr>
                 {this.state.resolviendo ?
                     <tr>
-                        <th colSpan="9">
+                        <th colSpan="10">
                             <Form.Group as={Row} className="mb-3">
                                 <Form.Label className="fw-normal" column sm={1}> Motivo:</Form.Label>
                                 <Col sm={8}> <Form.Control as="textarea" placeholder="indique el motivo" /></Col>

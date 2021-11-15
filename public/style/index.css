@@ -56,7 +56,7 @@
     position: sticky;
 }
 .nav-link{
-    color: red;
+    color: rgb(35, 135, 160);
 }
 #cabeceraTabla:active{
     background-color: red;

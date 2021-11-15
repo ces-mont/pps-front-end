@@ -4,6 +4,8 @@ import FormSala from "../componentescomunes/formSala";
 import ItemListaSala from "../componentescomunes/itemListaSala";
 import { connect } from "react-redux";
 import FormLogin from "../componentescomunes/formlogin";
+import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
+import { IoCaretUpCircle, IoStopOutline, IoCheckboxOutline, IoArrowUpOutline, IoArrowDown, IoAddCircle, IoArrowUp } from "react-icons/io5";
 
 const GestionSalas = ({ usuario }) => {
   const [creatingSala, setCreatingSala] = useState(false);
@@ -24,33 +26,34 @@ const GestionSalas = ({ usuario }) => {
       });
   }, []);
 
-  const eliminarSala = (indice)=>{
-    console.log('eliminando el indice: ',indice)
+  const eliminarSala = (indice) => {
+    console.log('eliminando el indice: ', indice)
     let salasAux = Array.from(salas);
-    console.log('salasAux ',salasAux);
-    salasAux.splice(indice,1);
+    console.log('salasAux ', salasAux);
+    salasAux.splice(indice, 1);
     setSalas(salasAux);
-    console.log('salasAux ',salasAux);
+    console.log('salasAux ', salasAux);
   }
 
   return (
     <>
-      {(usuario.logged && usuario.rol =='ADMI') ? (
+      {(usuario.logged && usuario.rol == 'ADMI') ? (
         <>
-          <h4>Listado de salas </h4>
-          {salas.map((elem, indice) => (
-            <ItemListaSala actualizarSalas={setSalas} sacarSala={eliminarSala} e={elem} key={elem.idSala} indice={indice}/>
-          ))}
+          <h3 className="my-3 text-center fw-normal">Listado de salas </h3>
+          <Row className="mb-2">
+            <Col xs="auto">
+              <button className="btn btn-primary active" type="button" onClick={() => setCreatingSala(true)}>
+                <IoAddCircle style={{ padding: '0', marginRight: '0.8em !important', height: '2em', width: '2em' }} />Agregar sala
+              </button>
+            </Col>
+          </Row>
 
           {creatingSala ? (
-            <FormSala subiendo={setCreatingSala}/>
-          ) : (
-            <div className="d-grid gap-2 col-6 mx-auto">
-              <button className="btn btn-primary active" type="button" onClick={() => setCreatingSala(true)}>
-                Cargar sala de laboratorio
-              </button>
-            </div>
-          )}
+            <FormSala subiendo={setCreatingSala} />
+          ) : null}
+          {salas.map((elem, indice) => (
+            <ItemListaSala actualizarSalas={setSalas} sacarSala={eliminarSala} e={elem} key={elem.idSala} indice={indice} />
+          ))}
         </>
       ) : (
         <>

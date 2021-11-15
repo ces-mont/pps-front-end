@@ -18,7 +18,7 @@ class ReservaAccesorio extends React.Component {
       diasnohabiles: [], //aparecerán en rojo en el calendario
       diashabiles: {},
       accSelec: null,
-      indiceSelec:null,
+      indiceSelec: null,
       inicioPeriodo: '',
       finPeriodo: '',
       diasXmes: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
@@ -114,7 +114,7 @@ class ReservaAccesorio extends React.Component {
     }
   }
   cierraModal() {
-    this.setState({ showModal: false});
+    this.setState({ showModal: false });
     /* if (this.state.submitok) {
       let accs = this.state.accs;
       accs.forEach(elem => { elem.activo = false });
@@ -122,9 +122,9 @@ class ReservaAccesorio extends React.Component {
     //this.setState({ showModal: false, limpiar: ++this.state.limpiar });
   }
   setDia(d) {
-    console.log("--setDia: " + d+ " this.state.accSelec: "+this.state.accSelec);
+    console.log("--setDia: " + d + " this.state.accSelec: " + this.state.accSelec);
     this.setState({ diaSelec: d })
-    if (this.state.accSelec !== null) { console.log('a chequearReservas');this.consultaReservas(d); }
+    if (this.state.accSelec !== null) { console.log('a chequearReservas'); this.consultaReservas(d); }
   }
   consultaReservas(dia) {
     console.log("consultandoReservas->/salas/estado/" + this.state.accSelec + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia);
@@ -181,19 +181,19 @@ class ReservaAccesorio extends React.Component {
       let horaInicio = this.state.horaInicio.split(":");
       let horaFin = this.state.horaFin.split(":");
       let inicio = (+horaInicio[0] - 7) * 2;
-      let fin = (+horaFin[0] - 7) * 2;      
+      let fin = (+horaFin[0] - 7) * 2;
       if (+horaInicio[0] > +horaFin[0] || (+horaInicio[0] === +horaFin[0] && +horaInicio[1] >= +horaFin[1])) {
         this.setState({ msj: "El horario elegido no es correcto" });
         this.setState({ showModal: true });
       } else {
         if (+horaInicio[1] === 30) { inicio++; }
-        if (+horaFin[1] === 0) { fin--; }        
+        if (+horaFin[1] === 0) { fin--; }
         let horarios = this.state.horarios.slice(inicio, fin + 1);
         console.log("horarios[]:", horarios);
         if (horarios.some((e) => {
-          console.log('cantidad+e= ',+this.state.accesorios[this.state.indiceSelec].cantidad-this.state.cantidad+e);
-          return (+this.state.accesorios[this.state.indiceSelec].cantidad-this.state.cantidad+e<0)
-        })  ) {
+          console.log('cantidad+e= ', +this.state.accesorios[this.state.indiceSelec].cantidad - this.state.cantidad + e);
+          return (+this.state.accesorios[this.state.indiceSelec].cantidad - this.state.cantidad + e < 0)
+        })) {
           console.log('-->choque de horarios')
           this.setState({ msj: "El horario elegido o parte de él ya está reservado" });
           this.setState({ showModal: true });
@@ -205,8 +205,10 @@ class ReservaAccesorio extends React.Component {
             horaInicio: this.state.horaInicio, horaFin: this.state.horaFin, cantidad: this.state.cantidad,
           }), false, this.props.user.token)
             .then((rta) => {
-              this.setState({msj: rta.msj, showModal: true, submitok: true, diaSelec: null, accSelec: null, reservando: false, diaElegido: "", materia: "", 
-                             especialidad: "", cantidad: 0, horaInicio: "7:00", horaFin: "7:00", comentario: "",horarios:[]});
+              this.setState({
+                msj: rta.msj, showModal: true, submitok: true, diaSelec: null, accSelec: null, reservando: false, diaElegido: "", materia: "",
+                especialidad: "", cantidad: 0, horaInicio: "7:00", horaFin: "7:00", comentario: "", horarios: []
+              });
               return rta;
             })
             .catch();
@@ -225,8 +227,8 @@ class ReservaAccesorio extends React.Component {
             <Col xs={7}>
               <h4 className="fw-normal">1. Seleccione un dispositivo</h4>
               <div className="list-group">
-                {this.state.accesorios.map((elem,indice) => (
-                  <a href="#" className="list-group-item list-group-item-action p-0 " aria-current="true" key={elem.idAccesorio} onClick={(e) => { this.setState({ accSelec: elem.idAccesorio, indiceSelec:indice }); }}>
+                {this.state.accesorios.map((elem, indice) => (
+                  <a href="#" className="list-group-item list-group-item-action p-0 " aria-current="true" key={elem.idAccesorio} onClick={(e) => { this.setState({ accSelec: elem.idAccesorio, indiceSelec: indice }); }}>
                     <Row>
                       <Col xs={2}>
                         <img src={elem.urlImagen} style={{ maxWidth: '6em' }} className="img-fluid rounded-start" alt="..." />
@@ -246,16 +248,20 @@ class ReservaAccesorio extends React.Component {
               <h4 className="fw-normal">2. Seleccione un día</h4>
               <Mes setDia={this.setDia} setMes={this.setMes} setAnio={(a) => this.setState({ anioSelec: a })} key={this.state.limpiar} rojos={this.state.diasnohabiles} verdes={this.state.diashabiles} />
               <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+                <tbody>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+                </tbody>
               </table>
             </Col>
 
             <Col className="pt-4">
-              <Turnos horarios={this.state.horarios}/>
+              <Turnos horarios={this.state.horarios} />
               <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(50,170,80)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Libre</h6></td></tr>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(190,50,30)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Reservado (cantidad ocupada)</h6></td></tr>
+                <tbody>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(50,170,80)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Libre</h6></td></tr>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(190,50,30)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">Reservado (cantidad ocupada)</h6></td></tr>
+                </tbody>
               </table>
               <p>limpiar {this.state.limpiar}</p>
             </Col>

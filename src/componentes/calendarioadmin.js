@@ -121,7 +121,7 @@ class CalendarioAdmin extends React.Component {
             console.log('HabilitarDia()->diasnohabiles', diasnohabiles)
           }
         }
-        this.setState({ diasnohabiles ,mesHabilit:'',diaHabilit:''});
+        this.setState({ diasnohabiles, mesHabilit: '', diaHabilit: '' });
       })
       .catch(err => console.log('calendario-err: ', err));
   }
@@ -143,7 +143,7 @@ class CalendarioAdmin extends React.Component {
         //let rojos = this.state.rojos;
         //rojos.push(+this.state.diaDeshabilit);
         //diasnohabiles.push(+this.state.diaDeshabilit);
-        this.setState({ diasnohabiles,mesDeshabilit:'',diaDeshabilit:'' });
+        this.setState({ diasnohabiles, mesDeshabilit: '', diaDeshabilit: '' });
       })
       .catch(err => console.log('calendario-err: ', err));
   }
@@ -277,8 +277,10 @@ class CalendarioAdmin extends React.Component {
             <Col xs={4} className="pt-1" >
               <Mes setDia={(d) => this.setState({ diaSelec: d })} setMes={this.setMes} setAnio={(a) => this.setState({ anioSelec: a })} rojos={this.state.diasnohabiles} verdes={this.state.verdes} />
               <table variant="dark" className="table mt-1" style={{ fontFamily: 'Saira Extra Condensed', fontSize: '2ex', }}>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
-                <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+                <tbody>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(118,167,105)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias habilitados</h6></td></tr>
+                  <tr><td className="mt-0 mb-0 pt-0 pb-0" style={{ background: 'rgb(185,100,85)', width: '3ex' }}></td><td><h6 className="mt-0 mb-0 pt-0 pb-0">dias no habilitados</h6></td></tr>
+                </tbody>
               </table>
             </Col>
           </Row>

@@ -4,6 +4,7 @@ import FormLogin from '../componentescomunes/formlogin';
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/useractions";
 import { IoLogOutOutline } from "react-icons/io5";
+import { Card,Col } from 'react-bootstrap';
 
 const Login = ({ usuario, salir }) => {
 
@@ -16,15 +17,21 @@ const Login = ({ usuario, salir }) => {
     return (
         <Plantilla>
             {usuario.logged ?
-                <>
-                    <h5 className="mt-3 fw-normal">Cerrar la sesión actual</h5>
-                    <div className="d-grip col-3 mx-auto">
-                        <button style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center',borderColor:'rgb(255,214,100)'}} type="button" className="btn btn-secondary" onClick={submitear}>
-                            <IoLogOutOutline style={{padding:'0',marginRight:'0.8em !important',color:'rgb(255,214,100)',height:'2.5em',width:'2.5em'}}/>
+                
+                <Card>
+                    <Card.Header className="fw-normal text-center">Cerrar la sesión actual</Card.Header>
+                    <Col className="d-grip col-3 mx-auto">
+                        <button 
+                            style={{width:'100%',display:'flex',alignItems:'center',justifyContent:'center'}} 
+                            type="button" 
+                            className="btn btn-primary my-4" 
+                            onClick={submitear}
+                        >
+                            <IoLogOutOutline style={{padding:'0',marginRight:'0.8em !important',height:'2em',width:'2em'}}/>
                             Salir
                         </button>
-                    </div>
-                </>
+                    </Col>
+                </Card>
                 :
                 <FormLogin />
             }

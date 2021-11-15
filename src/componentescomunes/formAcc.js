@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { doJwtPreflightCorsPostRequest } from "../apirequests/requests";
+import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
 
 const FormAcc = ({usuario,subiendo}) => {
   const [tipo, setTipo] = useState('');
@@ -20,6 +21,57 @@ const FormAcc = ({usuario,subiendo}) => {
       .catch(err=>console.log('err ',err));
   }
   return (
+    <Form onSubmit={crearAcc} className="mt-1 p-3 border">
+      <Row className="mb-1">
+        <Col xs={3}>
+          <label className="col-form-label">Tipo de dispositivo</label>
+        </Col>
+        <Col xs={9}>
+          <input type="text" id="idTipo" className="form-control" value={tipo} onChange={() => setTipo(event.target.value)} />
+          <div className="col-auto"><span id="tipoInline" className="form-text">tipo de dispositivo</span></div>
+        </Col>
+      </Row>
+      <Row className="mb-1">
+        <Col xs={3}>
+          <label className="col-form-label">Nombre o breve descripción</label>
+        </Col>
+        <Col xs={9}>
+          <input type="text" id="idTipo" className="form-control" value={descripcionCorta} onChange={() => setDescripcionCorta(event.target.value)} />
+          <span id="tipoInline" className="form-text">descripción corta del dispositivo</span>
+        </Col>
+      </Row>
+      <Row className="mb-1">
+        <Col xs={3}>
+          <label className="col-form-label">Descripción detallada</label>
+        </Col>
+        <Col xs={9}>
+          <input type="text" id="idTipo" className="form-control" value={descripcionLarga} onChange={() => setDescripcionLarga(event.target.value)} />
+          <span id="tipoInline" className="form-text">descripción detallada del dispositivo</span>
+        </Col>
+      </Row>
+      <Row className="mb-1">
+        <Col xs={3}>
+          <label className="col-form-label">Cantidad</label>
+        </Col>
+        <Col xs={9}>
+          <input type="number" id="idTipo" className="form-control" value={cantidad} onChange={() => setCantidad(event.target.value)} />
+          <span id="tipoInline" className="form-text">cantidad de dispositivos disponibles</span>
+        </Col>
+      </Row>
+      <Row className="mb-1">
+        <Col xs={3}>
+          <label className="col-form-label">Url de la imagen</label>
+        </Col>
+        <Col xs={9}>
+          <input type="text" id="idTipo" className="form-control" value={urlImagen} onChange={() => setUrlImagen(event.target.value)} />
+          <span id="tipoInline" className="form-text">url de una imagen del dispositivo</span>
+        </Col>
+      </Row>
+      <button type="submit" className="btn btn-primary me-2 btn-sm">Agregar Dispositivo</button>
+      <button onClick={() => subiendo(false)} className="btn btn-sm btn-primary">Cancelar</button>
+    </Form>
+  );
+/*   return (
     <form onSubmit={crearAcc}>
       <div className="row align-items-center">
         <div className="col-auto"><label className="col-form-label">Tipo</label></div>
@@ -49,7 +101,7 @@ const FormAcc = ({usuario,subiendo}) => {
       <button type="submit" className="btn btn-primary">Agregar Accesorio</button>
       <button onClick={() => subiendo(false)} className="btn btn-primary">Cancelar</button>
     </form>
-  );
+  ); */
 };
 
 const mapStateToProps = (state) => ({ usuario: state.userReducer });

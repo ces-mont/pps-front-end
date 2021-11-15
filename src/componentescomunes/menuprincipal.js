@@ -36,7 +36,6 @@ const MenuPrincipal = ({ usuario }) => {
             <NavLink to="/reservarsala" className="nav-link" aria-selected="false"><Navbar.Brand>Reservar Sala</Navbar.Brand></NavLink>
             <NavLink to="/reservaraccesorios" className="nav-link" aria-selected="false"><Navbar.Brand>Reserva Dispositivo</Navbar.Brand></NavLink>
             <NavLink to="/admin" className="nav-link" aria-selected="false"><Navbar.Brand>Administrar Laboratorio</Navbar.Brand></NavLink>
-            <NavLink to="/calendario" className="nav-link" aria-selected="false"><Navbar.Brand>Calendario</Navbar.Brand></NavLink>
         </Nav>
     )
 }

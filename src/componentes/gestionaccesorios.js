@@ -4,6 +4,8 @@ import FormAcc from "../componentescomunes/formAcc";
 import ItemListaAcc from "../componentescomunes/itemListaSala";
 import { connect } from "react-redux";
 import FormLogin from "../componentescomunes/formlogin";
+import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
+import { IoCaretUpCircle, IoStopOutline, IoCheckboxOutline, IoArrowUpOutline, IoArrowDown, IoAddCircle, IoArrowUp } from "react-icons/io5";
 
 const GestionAccesorios = ({ usuario }) => {
   const [creatingAcc, setCreatingAcc] = useState(false);
@@ -34,20 +36,22 @@ const GestionAccesorios = ({ usuario }) => {
     <>
       {(usuario.logged && usuario.rol =='ADMI') ? (
         <>
-          <h4>Listado de accesorios </h4>
-          {accs.map((elem, indice) => (
-            <ItemListaAcc actualizarAcc={setAccs} sacarAcc={eliminarAcc} e={elem} key={elem.idAccesorio} indice={indice}/>
-          ))}
+          <h4>Listado de dispositivos </h4>
+          <Row className="mb-2">
+            <Col xs="auto">
+              <button className="btn btn-primary active" type="button" onClick={() => setCreatingAcc(true)}>
+                <IoAddCircle style={{ padding: '0', marginRight: '0.8em !important', height: '2em', width: '2em' }} />Agregar dispositivo
+              </button>
+            </Col>
+          </Row>
 
           {creatingAcc ? (
             <FormAcc subiendo={setCreatingAcc}/>
-          ) : (
-            <div className="d-grid gap-2 col-6 mx-auto">
-              <button className="btn btn-primary active" type="button" onClick={() => setCreatingAcc(true)}>
-                Cargar accesorio
-              </button>
-            </div>
-          )}
+          ) : null}
+
+          {accs.map((elem, indice) => (
+            <ItemListaAcc actualizarAcc={setAccs} sacarAcc={eliminarAcc} e={elem} key={elem.idAccesorio} indice={indice}/>
+          ))}
         </>
       ) : (
         <>

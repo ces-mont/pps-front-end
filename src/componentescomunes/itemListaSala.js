@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { doJwtPreflightCorsPutRequest, doJwtPreflightCorsDeleteRequest } from "../apirequests/requests";
+import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
 
 const ItemListaSala = ({ e, usuario, sacarSala, indice }) => {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
@@ -18,14 +19,14 @@ const ItemListaSala = ({ e, usuario, sacarSala, indice }) => {
       })
       .catch((err) => console.log("err->", err));
   };
-  const eliminarSala = (ev)=>{
-    console.log('ELIMINAR-SALA->IDSALA: ',estadoSala)
-    doJwtPreflightCorsDeleteRequest('/salas', JSON.stringify({idSala:estadoSala.idSala}), usuario.token)
-      .then(rta=>{
-        console.log('rta-> ',rta);
+  const eliminarSala = (ev) => {
+    console.log('ELIMINAR-SALA->IDSALA: ', estadoSala)
+    doJwtPreflightCorsDeleteRequest('/salas', JSON.stringify({ idSala: estadoSala.idSala }), usuario.token)
+      .then(rta => {
+        console.log('rta-> ', rta);
         sacarSala(indice)
       })
-      .catch(err=>console.log('err->',err));
+      .catch(err => console.log('err->', err));
   }
   const setCampo = (ev) => {
     console.log("campo-> ", ev.target.name, " valor->", ev.target.value);
@@ -44,90 +45,98 @@ const ItemListaSala = ({ e, usuario, sacarSala, indice }) => {
   return (
     <>
       {usuario.logged ? (
-        <div className="card border-secondary mb-3">
-          {modifing ? (
-            <form onSubmit={actualizarSala}>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Tipo</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" id="idTipo" className="form-control" value={estadoSala.tipo} name="tipo" onChange={setCampo} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Breve descripción</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" id="idTipo" className="form-control" value={estadoSala.descripcionCorta} name="descripcionCorta" onChange={setCampo} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Descripción detallada</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" id="idTipo" className="form-control" value={estadoSala.descripcionLarga} name="descripcionLarga" onChange={setCampo} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Ubicación</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" id="idTipo" className="form-control" value={estadoSala.ubicacion} name="ubicacion" onChange={setCampo} />
-                </div>
-              </div>
-              <div className="row align-items-center">
-                <div className="col-auto">
-                  <label className="col-form-label">Imagen</label>
-                </div>
-                <div className="col-auto">
-                  <input type="text" id="idTipo" className="form-control" value={estadoSala.urlImagen} name="urlImagen" onChange={setCampo} />
-                </div>
-              </div>
-              <button type="submit" className="btn btn-primary" >
-                Confirmar
-              </button>
-              <button onClick={() => setModifing(false)} className="btn btn-primary">
-                Cancelar
-              </button>
-            </form>
-          ) : (
-            <div className="row g-0">
-              <div className="col-md-4">
-                {" "}
-                <img src={estadoSala.urlImagen} className="img-fluid rounded-start" alt="imagen de sala" />{" "}
-              </div>
-              <div className="col-md-8">
-                <div className="card-header">{estadoSala.descripcionCorta}</div>
-                <div className="card-body">
-                  <p className="card-text">{estadoSala.descripcionLarga}</p>
-                  <p className="card-text">idSala {estadoSala.idSala}</p>
-                  <p className="card-text">
-                    <small className="text-muted">{estadoSala.ubicacion}</small>
-                  </p>
-                </div>
-                {showModal?
-                  <div className="card text-white bg-danger">
-                  <h5 className="card-header">Eliminar Sala</h5>
-                  <div className="card-body">
-                    <p className="card-text">Esta a punto de eliminar la Sala. Ingrese su contraseña de administrador para confirmar la operación.</p>
-                  </div>
-                    <button type="button" onClick={()=> setShowModal(false)} className="btn btn-primary btn-sm active"> Cancelar </button>
-                    <button type="button" onClick={eliminarSala} className="btn btn-primary btn-sm active"> Confirmar </button>
-                </div>:
+        <Card className="mb-2" bg="light">
+          <Card.Header as="h5" className="text-center fw-light">{estadoSala.descripcionCorta}</Card.Header>
+          <Row>
+            <Col xs={2}>
+              <Card.Img variant="top" src={estadoSala.urlImagen} className="fluid" />
+            </Col>
+            <Col xs={10}>
+              <Card.Body className="my-0 py-0">
+                <Card.Title className="mt-1 py-0 fw-light">Descripcion</Card.Title>
+                <Card.Text className="my-0 py-0"><small className="text-muted my-0 py-0" >{estadoSala.descripcionLarga}</small></Card.Text>
+              </Card.Body>
+              <Card.Body className="my-0 py-0">
+                <Card.Title as="h6" className="mt-2 py-0 fw-light">Tipo de sala: <small className=" fw-normal text-muted my-0 py-0">{estadoSala.tipo}</small></Card.Title>
+              </Card.Body>
+              <Card.Body>
+                {modifing ?
+                  <Form onSubmit={actualizarSala} className="mt-1 p-3 border">
+                    <Row className="mb-1">
+                      <Col xs={3}>
+                        <label className="col-form-label">Tipo de sala</label>
+                      </Col>
+                      <Col xs={9}>
+                        <input type="text" className="form-control" value={estadoSala.tipo} name="tipo" onChange={setCampo} />
+                      </Col>
+                    </Row>
+                    <Row className="mb-1">
+                      <Col xs={3}>
+                        <label className="col-form-label">Nombre o breve descripción</label>
+                      </Col>
+                      <Col xs={9}>
+                        <input type="text" className="form-control" value={estadoSala.descripcionCorta} name="descripcionCorta" onChange={setCampo} />
+                      </Col>
+                    </Row>
+                    <Row className="mb-1">
+                      <Col xs={3}>
+                        <label className="col-form-label">Descripción detallada</label>
+                      </Col>
+                      <Col xs={9}>
+                        <input type="text" className="form-control" value={estadoSala.descripcionLarga} name="descripcionLarga" onChange={setCampo} />
+                      </Col>
+                    </Row>
+                    <Row className="mb-1">
+                      <Col xs={3}>
+                        <label className="col-form-label">Ubicación</label>
+                      </Col>
+                      <Col xs={9}>
+                        <input type="text" className="form-control" value={estadoSala.ubicacion} name="ubicacion" onChange={setCampo} />
+                      </Col>
+                    </Row>
+                    <Row className="mb-1">
+                      <Col xs={3}>
+                        <label className="col-form-label">Url de la imagen</label>
+                      </Col>
+                      <Col xs={9}>
+                        <input type="text" className="form-control" value={estadoSala.urlImagen} name="urlImagen" onChange={setCampo} />
+                      </Col>
+                    </Row>
+                    <button type="submit" className="btn btn-sm btn-primary me-2" >Confirmar</button>
+                    <button onClick={() => setModifing(false)} className="btn btn-sm btn-primary">Cancelar</button>
+                  </Form>
+                  :
                   <>
-                    <button type="button" onClick={()=> setShowModal(true)} className="btn btn-primary active"> Eliminar </button>
-                    <button type="button" onClick={()=> setModifing(true)} className="btn btn-primary active"> Modificar </button>
+                    {showModal ?
+                      <Form className="mt-1 p-3 border">
+                        <h5 className="text-center fw-normal mb-2">Esta a punto de eliminar la sala</h5>
+                        <Row className="justify-content-md-center">
+                          <Col md="auto">
+                            <Form.Label className="fw-normal pt-1" > Contraseña de administrador:</Form.Label>
+                          </Col>
+                          <Col md="auto">
+                            <Form.Control type="text" placeholder="ingresar contraseña" />
+                          </Col>
+                        </Row>
+                        <button type="button" onClick={() => setShowModal(false)} className="btn btn-primary btn-sm active mx-2"> Cancelar </button>
+                        <button type="button" onClick={eliminarSala} className="btn btn-primary btn-sm active"> Confirmar </button>
+                      </Form> :
+                      <>
+                        <button type="button" onClick={() => setShowModal(true)} className="btn btn-sm btn-primary active mx-2"> Eliminar </button>
+                        <button type="button" onClick={() => setModifing(true)} className="btn btn-sm btn-primary active"> Modificar </button>
+                      </>
+                    }
                   </>
                 }
-              </div>
-            </div>
-          )}
-        </div>
-      ) : null}
+              </Card.Body>
+            </Col>
+          </Row>
+          <Card.Footer>
+            <Card.Text className="text-center" ><small className="fw-normal text-muted">Ubicación: {estadoSala.ubicacion}</small></Card.Text>
+          </Card.Footer>
+        </Card>
+      ) : null
+      }
     </>
   );
 };
