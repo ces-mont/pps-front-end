@@ -74,7 +74,7 @@ class ReservaAccesorio extends React.Component {
         diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
         this.setState({ diashabiles });
       })
-      .catch( err);
+      .catch();
   }
   setMes(mes, anio) {
     this.setState({ mesSelec: mes });
@@ -108,7 +108,7 @@ class ReservaAccesorio extends React.Component {
           diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
           this.setState({ diashabiles });
         })
-        .catch(err);
+        .catch();
     } else {
       this.setState({ diashabiles: {} });
     }

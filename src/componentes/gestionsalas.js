@@ -19,7 +19,7 @@ const GestionSalas = ({ usuario }) => {
       .then((rta) => {
         setSalas(rta);
       })
-      .catch(err);
+      .catch();
   }, []);
   const subirSala = (e)=>{
     const salasAux = salas;

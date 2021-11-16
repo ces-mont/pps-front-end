@@ -99,7 +99,7 @@ class CalendarioAdmin extends React.Component {
         }
         this.setState({ diasnohabiles, mesHabilit: '', diaHabilit: '' });
       })
-      .catch(err );
+      .catch();
   }
   inhabilitarDia() {
     doJwtPreflightCorsPostRequest('/calendario/estado', JSON.stringify({ dia: this.state.diaDeshabilit, mes: 1 + this.state.meses.indexOf(this.state.mesDeshabilit), anio: (new Date()).getFullYear(), accion: 'i' }), false, this.props.usuario.token)
@@ -111,7 +111,7 @@ class CalendarioAdmin extends React.Component {
         }
         this.setState({ diasnohabiles, mesDeshabilit: '', diaDeshabilit: '' });
       })
-      .catch(err);
+      .catch();
   }
   setMes(mes, anio) {
     this.setState({ mesSelec: mes });
@@ -141,7 +141,7 @@ class CalendarioAdmin extends React.Component {
           verdes.fin = (this.state.mesSelec == fin[1]) ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
           this.setState({ verdes })
         })
-        .catch(err );
+        .catch();
     } else {
       this.setState({ verdes: [] })
     }
