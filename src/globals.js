@@ -1,1 +1,0 @@
-export const SERVER_URL='http://labs-utn.herokuapp.com';
