@@ -16,7 +16,10 @@ const FormSala = ({ usuario, subiendo }) => {
     let sala = { tipo, ubicacion, descripcionLarga, descripcionCorta, urlImagen }
     console.log('sala', sala)
     doJwtPreflightCorsPostRequest('/salas', JSON.stringify({ tipo, ubicacion, descripcionLarga, descripcionCorta, urlImagen, idUsuario: usuario.idUsuario }), false, usuario.token)
-      .then(rta => console.log('rta ', rta))
+      .then(rta => {
+        console.log('rta ', rta);
+        subiendo(false)
+      })
       .catch(err => console.log('err ', err));
   }
   return (

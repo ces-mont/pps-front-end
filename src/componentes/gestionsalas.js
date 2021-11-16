@@ -25,6 +25,12 @@ const GestionSalas = ({ usuario }) => {
         console.log("error->", err);
       });
   }, []);
+  const subirSala = (e)=>{
+    const salasAux = salas;
+    //salasAux.push(e);
+    //setSalas(salasAux);
+    setCreatingSala(false);
+  }
 
   const eliminarSala = (indice) => {
     console.log('eliminando el indice: ', indice)

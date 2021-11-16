@@ -17,7 +17,10 @@ const FormAcc = ({usuario,subiendo}) => {
     let acc = {tipo,cantidad,descripcionLarga,descripcionCorta,urlImagen}
     console.log('acc ',acc)
     doJwtPreflightCorsPostRequest('/accesorios',JSON.stringify({tipo,cantidad,descripcionLarga,descripcionCorta,urlImagen,idUsuario:usuario.idUsuario}), false, usuario.token)
-      .then(rta=>console.log('rta ',rta))
+      .then(rta=>{
+        console.log('rta ',rta);
+        subiendo(false);
+      })
       .catch(err=>console.log('err ',err));
   }
   return (

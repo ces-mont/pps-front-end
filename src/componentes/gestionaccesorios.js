@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doSimpleCorsGetRequest } from "../apirequests/requests";
 import FormAcc from "../componentescomunes/formAcc";
-import ItemListaAcc from "../componentescomunes/itemListaSala";
+import ItemListaAcc from "../componentescomunes/itemListaAccs";
 import { connect } from "react-redux";
 import FormLogin from "../componentescomunes/formlogin";
 import { Table, Form, Col, Button, Modal, ButtonGroup, ListGroup, Row, CardDeck, Badge, CardGroup, Card, Jumbotron } from 'react-bootstrap';
@@ -36,7 +36,7 @@ const GestionAccesorios = ({ usuario }) => {
     <>
       {(usuario.logged && usuario.rol =='ADMI') ? (
         <>
-          <h4>Listado de dispositivos </h4>
+        <h3 className="my-3 text-center fw-normal">Listado de dispositivos </h3>
           <Row className="mb-2">
             <Col xs="auto">
               <button className="btn btn-primary active" type="button" onClick={() => setCreatingAcc(true)}>
