@@ -11,27 +11,20 @@ const ItemListaAcc = ({ e, usuario, sacarAcc, indice }) => {
 
   const actualizarAcc = (ev) => {
     ev.preventDefault();
-    console.log('->ItemListaAcc->estadoAcc: ',estadoAcc);
-    console.log('->ItemListaAcc->e ',e)
     doJwtPreflightCorsPutRequest("/accesorios", JSON.stringify(estadoAcc), usuario.token)
       .then((rta) => {
-        //si se subio ok => actualizar el estado con "actualizar()"
-        //console.log(rta);
         setModifing(false);
       })
-      .catch((err) => console.log("err->", err));
+      .catch();
   };
   const eliminarAcc = (ev)=>{
-    console.log('ELIMINAR-ACCESoRIO->ID: ',estadoAcc)
     doJwtPreflightCorsDeleteRequest('/accesorios', JSON.stringify({idAcc:estadoAcc.idAcc}), usuario.token)
       .then(rta=>{
-        console.log('rta-> ',rta);
         sacarAcc(indice)
       })
-      .catch(err=>console.log('err->',err));
+      .catch();
   }
   const setCampo = (ev) => {
-    console.log("campo-> ", ev.target.name, " valor->", ev.target.value);
     let acc = {
       tipo: estadoAcc.tipo,
       idAccesorio:estadoAcc.idAccesorio,

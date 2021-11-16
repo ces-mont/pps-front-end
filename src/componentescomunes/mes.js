@@ -31,19 +31,10 @@ export default class Mes extends React.Component {
         return null
     } */
     setDiasDelMes(fecha){
-        console.log('->mes.js->setDiasDelMes->fecha: ',fecha);
-        console.log('->mes.js->setDiasDelMes->props.verdes: ',this.props.verdes);
-
-        //console.log('->mes.js->setDiasDelMes->typeof fecha: '+typeof fecha)
         let primeroAux = new Date(fecha.getFullYear(), fecha.getMonth(), 1)
-        /* console.log('->mes.js->setDiasDelMes->primeroAux: ',primeroAux);
-        console.log('->mes.js->setDiasDelMes->primeroAux.getDay(): ',primeroAux.getDay());
-        console.log('->mes.js->setDiasDelMes->fecha.getMonth(): ',fecha.getMonth());
-        console.log('->mes.js->setDiasDelMes->fecha.getFullYear(): ',fecha.getFullYear()); */
         let row =[]
         let primero = (new Date(fecha.getFullYear(), fecha.getMonth(), 1)).getDay();
         let sems = Math.trunc(((this.state.diasXmes[fecha.getMonth()] + primero) / 7));
-        //console.log('->mes.js->setDiasDelMes->dia1 cae en->primero: '+primero)
         if(((this.state.diasXmes[fecha.getMonth()] + primero) % 7)!==0) sems++;  
         for (let i = 0; i < sems; i++) {
             for (let j = 0; j < 7; j++) {
@@ -59,7 +50,6 @@ export default class Mes extends React.Component {
     }
     sig() {        
         let dia;
-        console.log('mes.js->sig()->this.state.mesActual: ',this.state.mesActual)
         if(this.state.mesActual===12){
             dia=new Date(this.state.anioActual+1,0,1)
             this.setState({anioActual: this.state.anioActual+1,mesActual:1});
@@ -76,7 +66,6 @@ export default class Mes extends React.Component {
     }
     ant(){
         let dia;
-        console.log('mes.js->ant()->this.state.mesActual: ',this.state.mesActual)
         if(this.state.mesActual===1){
             dia = new Date(this.state.anioActual-1, 11, 1);
             this.setState({anioActual: this.state.anioActual-1,mesActual: 12,elemSem:[]});
@@ -92,15 +81,11 @@ export default class Mes extends React.Component {
         this.setDiasDelMes(dia)
     }
     setDia(e){
-        console.log('->setDia()->e.target: ',e.target.textContent)
-        //console.log('->setDia()->e: ',e)
         this.setState({diaActual:parseInt(e.target.textContent)})
         this.props.setDia(e.target.textContent);        
         //this.props.diaClick(new Date(this.state.anioActual,this.state.mesActual,parseInt(e.target.textContent)))
     }
     render() {
-        //console.log('MES.JS->RENDER->diaActual: '+this.state.diaActual+' ->mesActual: '+this.state.mesActual+'->anioActula: '+this.state.anioActual)
-        //console.log('MES.JS->RENDER->state: ',this.state)
         return (
             <div>
                 <table id="calendario" style={estiloTabla}>
@@ -132,18 +117,13 @@ export default class Mes extends React.Component {
 function Fe (props){
     let sem=[];
     let estilo = estiloLimpio
-    //console.log('->mes.js->Fe->props.diasDelMes[props.index]: ',props.diasDelMes[props.index])
     for (let i=0; i<7;i++){
-        //console.log('--->mes.js->Fe->dia: '+props.diasDelMes[props.index+i])
         if ((props.verdes.inicio<= props.diasDelMes[props.index+i])&&(props.diasDelMes[props.index+i]<= props.verdes.fin)){
-            //console.log('--->mes.js->Fe->es verde->el dia: '+props.diasDelMes[props.index+i])
-            //console.log('------->Verde')
             estilo = estiloVerde;
             if(props.rojos.includes( props.diasDelMes[props.index+i])) estilo = estiloRojo;
         }else{
             estilo = estiloLimpio
         }
-        //console.log('--->mes.js->Fe->dia: '+props.diasDelMes[props.index+i]+ 'con estilo->',estilo)
         sem.push((props.diasDelMes[props.index+i]===0)?
             <td style={estiloLimpio} key={props.index+i}></td>
             :

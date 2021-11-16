@@ -43,12 +43,7 @@ class ReservaSala extends React.Component {
     };
     this.setMes = this.setMes.bind(this);
     this.setDia = this.setDia.bind(this);
-    //this.setSala = this.setSala.bind(this);
-    //this.setDia = this.setDia.bind(this);
     this.consultaReservas = this.consultaReservas.bind(this);
-    //this.manejarCambio = this.manejarCambio.bind(this);
-    //this.manejaSubmit = this.manejaSubmit.bind(this);
-    //this.chequearCampos = this.chequearCampos.bind(this);
     this.reservar = this.reservar.bind(this);
     this.cierraModal = this.cierraModal.bind(this);
   }
@@ -56,13 +51,10 @@ class ReservaSala extends React.Component {
     doJwtCorsGetRequest("/salas/")
       .then((rta) => {
         this.setState({ salas: rta });
-        console.log("Rta->salas: " + rta);
-        console.log("this.props.location: " + this.props.location);
         return "/calendario/periodo";
       })
       .then(doSimpleCorsGetRequest)
       .then((rta) => {
-        console.log("ReservaSala->doSimpleCorsGetRequest->calendario/periodo/mes->rta: ", rta);
         let hoy = new Date();
         if (rta.length !== 0) this.setState({ inicioPeriodo: rta[0].inicio, finPeriodo: rta[0].fin });
         this.setState({ diaSelec: null, mesSelec: hoy.getMonth() + 1, anioSelec: hoy.getFullYear() });
@@ -70,14 +62,8 @@ class ReservaSala extends React.Component {
       })
       .then(doSimpleCorsGetRequest)
       .then((rta) => {
-        console.log("ReservaSala->doSimpleCorsGetRequest->calendario/diasinahabilitados/mes->rta: ", rta);
         let diasnohabiles = rta.map((e) => {
-          //console.log('CalendarioAdmin->e.dia: ',e.dia);
           let dia = e.dia.trim().split("-");
-          //let dia = new Date(+dateDiv[0],+dateDiv[1]-1,+dateDiv[2]);
-          //console.log('CalendarioAdmin->dia: ',dia);
-          //console.log('CalendarioAdmin->dia.getDate(): ',dia.getDate());
-          //return (dia.getDate());
           return +dia[2];
         });
         if (rta.length !== 0) this.setState({ diasnohabiles });
@@ -85,20 +71,14 @@ class ReservaSala extends React.Component {
       .then((rta) => {
         let inicio = this.state.inicioPeriodo.trim().split("-");
         let fin = this.state.finPeriodo.trim().split("-");
-        /*let dia = new Date(+dateDiv[0],+dateDiv[1]-1,+dateDiv[2]);   
-        let i = new Date(this.state.inicio)
-        let j = new Date(this.state.fin) */
         let diashabiles = {};
         diashabiles.inicio = this.state.mesSelec == inicio[1] ? +inicio[2] : 1;
         diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
-        /* verdes.inicio = (this.state.mesSelec == (1+i.getMonth()))?i.getDate() : 1;
-        verdes.fin = (this.state.mesSelec == (1+j.getMonth()))? j.getDate() : this.state.diasXmes[this.state.mesSelec]; */
         this.setState({ diashabiles });
       })
-      .catch((err) => console.log("calendario-err: ", err));
+      .catch();
   }
   setMes(mes, anio) {
-    console.log("->ReservarSala->setMes>mes: " + mes + " anio: " + anio);
     this.setState({ mesSelec: mes });
     let anioInicioAux = this.state.inicioPeriodo.trim().split("-")[0];
     let mesInicioAux = this.state.inicioPeriodo.trim().split("-")[1];
@@ -112,7 +92,6 @@ class ReservaSala extends React.Component {
     if (fechFin.getTime() >= paramFecha.getTime() && fechInicio.getTime() <= paramFecha.getTime()) {
       doSimpleCorsGetRequest("/calendario/diasinhabilitados/" + mes)
         .then((rta) => {
-          console.log("->calendarioadmin.js->ESTA EN FECHA->diasinhabilitados->rta->", rta);
           let diasnohabiles = rta.map((e) => {
             let dia = e.dia.trim().split("-");
             return +dia[2];
@@ -126,38 +105,20 @@ class ReservaSala extends React.Component {
         .then((rta) => {
           let inicio = this.state.inicioPeriodo.trim().split("-");
           let fin = this.state.finPeriodo.trim().split("-");
-          //console.log('->calendarioadmin.js->verdes->inicio: '+inicio+' fin: '+fin+' mesSelec: '+this.state.mesSelec +' añoSelec: '+this.state.anioSelec);
           let diashabiles = {};
           diashabiles.inicio = this.state.mesSelec == inicio[1] ? +inicio[2] : 1;
           diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
-          //console.log('->calendarioadmin.js->verdes: ',verdes)
           this.setState({ diashabiles });
         })
-        .catch((err) => console.log("calendario-err: ", err));
-    } else {
-      //console.log('->calendarioadmin.js->NO ESTA EN FECHA')
+        .catch();
+      }else{
       this.setState({ diashabiles: {} });
     }
   }
   cierraModal() {
-    console.log('cierra modal')
-    /*     if (this.state.submitok) {
-          let salas = this.state.salas;
-          salas.forEach(elem => { elem.activo = false });
-        } */
     this.setState({ showModal: false, limpiar: ++this.state.limpiar });
   }
-  /*async setSala(e) {
-    let salas = this.state.salas;
-    console.log("-->setSala->e.name: " + e.target.name);
-    salas.forEach((elem) => {
-      elem.activo = e.target.name == elem.idSala;
-    });
-    await this.setState({ salas: salas, salaElegida: e.target.name });
-    if (this.state.diaElegido !== "") {
-      this.consultaReservas();
-    }
-  }*/
+ 
   /*
   async setDia(e) {
     await this.setState({ diaElegido: e.toJSON() });
@@ -167,15 +128,12 @@ class ReservaSala extends React.Component {
   }*/
   //setSala(id){}
   setDia(d) {
-    console.log("--setDia: " + d);
     this.setState({ diaSelec: d })
     if (this.state.salaSelec !== null) { this.consultaReservas(d); }
   }
   consultaReservas(dia) {
-    console.log("consultandoReservas->/salas/estado/" + this.state.salaSelec + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia);
     doJwtCorsGetRequest("/salas/estado/" + this.state.salaSelec + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia, this.props.user.token)
       .then((rta) => {
-        console.log("Rta-: " + JSON.stringify(rta));
         let horarios = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // this.state.horarios;
         rta.forEach((elem) => {
           let hora0 = elem.horaInicio.split(":");
@@ -219,16 +177,12 @@ class ReservaSala extends React.Component {
     return true;
   }
   reservar(e) {
-    console.log("reservando la sala");
     e.preventDefault();
     if (this.chequearCampos()) {
       let horaInicio = this.state.horaInicio.split(":");
       let horaFin = this.state.horaFin.split(":");
       let inicio = (+horaInicio[0] - 7) * 2;
       let fin = (+horaFin[0] - 7) * 2;
-      console.log("state.horaInicio:" + this.state.horaInicio + " inicio: " + inicio + " this.state.horaFin:" + this.state.horaFin + " fin: " + fin);
-      console.log("horaInicio[1]:" + horaInicio[1] + " horaFin[1]: " + horaFin[1]);
-      console.log("horaInicio[0]:" + horaInicio[0] + " horaFin[0]: " + horaFin[0]);
       if (+horaInicio[0] > +horaFin[0] || (+horaInicio[0] === +horaFin[0] && +horaInicio[1] >= +horaFin[1])) {
         this.setState({ msj: "El horario elegido no es correcto" });
         this.setState({ showModal: true });
@@ -236,20 +190,16 @@ class ReservaSala extends React.Component {
         if (+horaInicio[1] === 30) { inicio++; }
         if (+horaFin[1] === 0) { fin--; }
         let horarios = this.state.horarios.slice(inicio, fin + 1);
-        console.log("horarios[]:", horarios);
         if (horarios.some((e) => { return e === 1; })) {
-          console.log("========>OCUPADO!!!");
           this.setState({ msj: "El horario elegido o parte de él ya está reservado" });
           this.setState({ showModal: true });
         } else {
-          console.log("========>NO OCUPADO!!!");
           doJwtPreflightCorsPostRequest("/salas/reservar", JSON.stringify({
             idSala: this.state.salaSelec, especialidad: this.state.especialidad,
             materia: this.state.materia, comentario: this.state.comentario, dia: (this.state.anioSelec + '-' + this.state.mesSelec + '-' + this.state.diaSelec),
             horaInicio: this.state.horaInicio, horaFin: this.state.horaFin, cantAlumnos: this.state.cantAlumnos,
           }), false, this.props.user.token)
             .then((rta) => {
-              console.log("Rta-: " + JSON.stringify(rta));
               this.setState({
                 msj: rta.msj, showModal: true, submitok: true, diaSelec: null, salaSelec: null, reservando: false, diaElegido: "",
                 materia: "", especialidad: "", cantAlumnos: 0, horaInicio: "7:00", horaFin: "7:00", comentario: "",
@@ -263,13 +213,10 @@ class ReservaSala extends React.Component {
   }
   /*   reservar(e) {
       e.preventDefault();
-      console.log("->reservar: ");
     } */
 
 
   render() {
-    console.log("this.state: ", this.state);
-    console.log("this.state.limpiar: ", this.state.limpiar);
     return (
       <Plantilla>
         <div id="titulo" className="text-center fw-light mb-5 mt-4">

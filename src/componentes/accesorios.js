@@ -12,11 +12,9 @@ export default class Accesorios extends React.Component {
         }
     }
     componentDidMount() {
-        console.log('iniciando');
         doJwtCorsGetRequest('/accesorios/')
             .then(rta => {
                 this.setState({ dispositivos: rta })
-                console.log('Rta->salas: ' , rta);
             })
             .catch();
     }

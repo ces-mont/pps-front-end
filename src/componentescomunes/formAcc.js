@@ -11,17 +11,13 @@ const FormAcc = ({usuario,subiendo}) => {
   const [urlImagen, setUrlImagen] = useState('');
 
   const crearAcc = (e)=>{
-    console.log('nuevoAccesorio->e.target: ',e.target)
     e.preventDefault();
-    console.log('nuevoAccesorio->')
     let acc = {tipo,cantidad,descripcionLarga,descripcionCorta,urlImagen}
-    console.log('acc ',acc)
     doJwtPreflightCorsPostRequest('/accesorios',JSON.stringify({tipo,cantidad,descripcionLarga,descripcionCorta,urlImagen,idUsuario:usuario.idUsuario}), false, usuario.token)
       .then(rta=>{
-        console.log('rta ',rta);
         subiendo(false);
       })
-      .catch(err=>console.log('err ',err));
+      .catch();
   }
   return (
     <Form onSubmit={crearAcc} className="mt-1 p-3 border">

@@ -9,10 +9,8 @@ const formLogin = ({ usuario, loguear, setearUsuario }) => {
 
   const submitear = (e) => {
     e.preventDefault();
-    console.log("submiteando con-> nombre:" + name + " password:" + pass);
     doPreflightCorsPostRequest( "/usuarios/login", JSON.stringify({ nombre: name, contrasenia: pass }), false)
       .then((rta) => {
-        console.log("post->usuario/login->rta: ", rta);
         setearUsuario({ 
             token: rta.token, nombre: rta.nombre,
             apellido: rta.apellido,
@@ -21,10 +19,7 @@ const formLogin = ({ usuario, loguear, setearUsuario }) => {
         });
         loguear();
       })
-      .catch((err) => {
-        console.log("post->usuario/login->err: ", err);
-      });
-    console.log("this.props->" + JSON.stringify(usuario));
+      .catch();
   };
 
   return (

@@ -19,13 +19,6 @@ class ItemReservAdmin extends React.Component {
         this.cierraModal = this.cierraModal.bind(this)
     }
     resolver = (e) => {
-        console.log('e.target: ', e.target)
-        console.log('e.target.value: ', e.target.value)
-        console.log('e.target.accion: ', e.target.accion)
-        console.log('this.state.e: ', this.state.e)
-        console.log('accion: ', this.state.accion)
-        console.log('motivo: ', this.state.motivo)
-        console.log('contraseña: ', this.state.pass)
         doJwtPreflightCorsPostRequest('/salas/resolverreserva',
             JSON.stringify({
                 idSolicitudSala: this.state.e.idSolicitudSala,
@@ -35,12 +28,10 @@ class ItemReservAdmin extends React.Component {
             }),
             false, this.props.usuario.token)
             .then(rta => {
-                console.log('rta: ', rta);
                 this.setState({ resolviendo: false })
                 this.props.eliminar(this.props.indice)
             })
             .catch(err => {
-                console.log('calendario-err: ',err.message)
                 this.setState({ msj:err.message, showModal:true })
             });
     }

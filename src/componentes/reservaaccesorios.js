@@ -74,7 +74,7 @@ class ReservaAccesorio extends React.Component {
         diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
         this.setState({ diashabiles });
       })
-      .catch((err) => console.log("calendario-err: ", err));
+      .catch( err);
   }
   setMes(mes, anio) {
     this.setState({ mesSelec: mes });
@@ -108,7 +108,7 @@ class ReservaAccesorio extends React.Component {
           diashabiles.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
           this.setState({ diashabiles });
         })
-        .catch((err) => console.log("calendario-err: ", err));
+        .catch(err);
     } else {
       this.setState({ diashabiles: {} });
     }
@@ -122,15 +122,12 @@ class ReservaAccesorio extends React.Component {
     //this.setState({ showModal: false, limpiar: ++this.state.limpiar });
   }
   setDia(d) {
-    console.log("--setDia: " + d + " this.state.accSelec: " + this.state.accSelec);
     this.setState({ diaSelec: d })
-    if (this.state.accSelec !== null) { console.log('a chequearReservas'); this.consultaReservas(d); }
+    if (this.state.accSelec !== null) { this.consultaReservas(d); }
   }
   consultaReservas(dia) {
-    console.log("consultandoReservas->/salas/estado/" + this.state.accSelec + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia);
     doJwtCorsGetRequest("/accesorios/estado/" + this.state.accSelec + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia, this.props.user.token)
       .then((rta) => {
-        console.log("Rta-: " + JSON.stringify(rta));
         let horarios = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // this.state.horarios;
         rta.forEach((elem) => {
           let cant = -1 * elem.cantidad;
@@ -152,7 +149,6 @@ class ReservaAccesorio extends React.Component {
         return horarios;
       })
       .then((rta) => {
-        console.log('-->Horarios ocupados: ', rta)
         this.setState({ horarios: rta });
       })
       .catch();
@@ -189,16 +185,12 @@ class ReservaAccesorio extends React.Component {
         if (+horaInicio[1] === 30) { inicio++; }
         if (+horaFin[1] === 0) { fin--; }
         let horarios = this.state.horarios.slice(inicio, fin + 1);
-        console.log("horarios[]:", horarios);
         if (horarios.some((e) => {
-          console.log('cantidad+e= ', +this.state.accesorios[this.state.indiceSelec].cantidad - this.state.cantidad + e);
           return (+this.state.accesorios[this.state.indiceSelec].cantidad - this.state.cantidad + e < 0)
         })) {
-          console.log('-->choque de horarios')
           this.setState({ msj: "El horario elegido o parte de él ya está reservado" });
           this.setState({ showModal: true });
         } else {
-          console.log('no choque de horarios??')
           doJwtPreflightCorsPostRequest("/accesorios/reservar", JSON.stringify({
             idAccesorio: this.state.accSelec, especialidad: this.state.especialidad,
             materia: this.state.materia, comentario: this.state.comentario, dia: (this.state.anioSelec + '-' + this.state.mesSelec + '-' + this.state.diaSelec),

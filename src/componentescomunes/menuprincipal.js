@@ -9,23 +9,7 @@ import { style } from 'dom-helpers';
 const setin = (e) => {
     e.target.style['background-color'] = 'red'
     let att = e.target.getAttribute('style')
-    console.log('att ', att)
-    console.log('event.target: ', e.target)
-}/* 
-const MenuPrincipal = ({usuario})=> {
-    return(
-            <Navbar expand="lg" className="justify-content-center mb-2" sticky="top" bg="light" style={estiloMenuPrincipal}>
-                <NavLink to="/" className="nav-link" aria-current="page" aria-selected="true"><Navbar.Brand onClick={setin}>Inicio</Navbar.Brand></NavLink>
-                <NavLink to="/login" className="nav-link" aria-selected="false"><Navbar.Brand onClick={setin}>{usuario.logged? <>Salir</>:<>Ingresar</>}</Navbar.Brand></NavLink>
-                <NavLink to="/salas" className="nav-link" aria-selected="false"><Navbar.Brand onClick={setin}>Salas</Navbar.Brand></NavLink>
-                <NavLink to="/accesorios" className="nav-link" aria-selected="false"><Navbar.Brand>Dispositivos</Navbar.Brand></NavLink>
-                <NavLink to="/reservarsala" className="nav-link" aria-selected="false"><Navbar.Brand>Reservar Sala</Navbar.Brand></NavLink>
-                <NavLink to="/reservaraccesorios" className="nav-link" aria-selected="false"><Navbar.Brand>Reserva Dispositivo</Navbar.Brand></NavLink>
-                <NavLink to="/admin" className="nav-link" aria-selected="false"><Navbar.Brand>Administrar Laboratorio</Navbar.Brand></NavLink>
-                <NavLink to="/calendario" className="nav-link" aria-selected="false"><Navbar.Brand>Calendario</Navbar.Brand></NavLink>
-            </Navbar>
-    )
-} */
+}
 const MenuPrincipal = ({ usuario }) => {
     return (
         <Nav fill variant="tabs" defaultActiveKey="/inicio" expand="lg" className="justify-content-center mb-2 mt-1" sticky="top" bg="light" style={estiloMenuPrincipal}>

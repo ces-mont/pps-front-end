@@ -44,20 +44,17 @@ export class ReservasAdmin extends React.Component {
   componentDidMount() {
     doJwtCorsGetRequest('/accesorios/reservaspendientes/', this.props.usuario.token)
       .then(rta => {
-        console.log('ReservasAccesoriosPendientes->', rta);
         this.setState({ solicitudesAccs: rta })
       })
-      .catch(err => console.log('err1: ', err));
+      .catch();
 
     doJwtCorsGetRequest('/salas/reservaspendientes/', this.props.usuario.token)
       .then(rta => {
-        console.log('ReservasSalasPendientes->', rta);
         this.setState({ solicitudesSalas: rta })
         return ('/calendario/periodo');
       })
       .then(doSimpleCorsGetRequest)
       .then(rta => {
-        //console.log('ReservasAdmin->doSimpleCorsGetRequest->calendario/periodo/mes->rta: ', rta);
         let hoy = new Date();
         if (rta.length !== 0) this.setState({ inicioPeriodo: rta[0].inicio, finPeriodo: rta[0].fin });
         this.setState({ diaSelec: hoy.getDate(), mesSelec: hoy.getMonth() + 1, anioSelec: hoy.getFullYear() });
@@ -68,11 +65,8 @@ export class ReservasAdmin extends React.Component {
       })
       .then(doSimpleCorsGetRequest)
       .then(rta => {
-        //console.log('AdmReervas->doSimpleCorsGetRequest->calendario/diasinahabilitados/mes->rta: ', rta);
         let diasnohabiles = rta.map((e) => {
-          //console.log('CalendarioAdmin->e.dia: ', e.dia);
           let dia = e.dia.trim().split('-');
-          //console.log('CalendarioAdmin->dia: ', dia);
           return (+dia[2])
         })
         if (rta.length !== 0) this.setState({ diasnohabiles });
@@ -85,11 +79,9 @@ export class ReservasAdmin extends React.Component {
         diashabilitados.fin = (this.state.mesSelec == fin[1]) ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
         this.setState({ diashabilitados })
       })
-      .catch(err => console.log('calendario-err: ', err));
+      .catch();
   }
   setMes(mes, anio) {
-    //console.log('->calendarioadmin.js->setMes(mes: '+mes+' anio: '+anio+')')
-    //console.log('->calendarioadmin.js->this.state.mesSelec: '+this.state.mesSelec +' this.state.añoSelec: '+this.state.anioSelec);
     this.setState({ mesSelec: mes });
     let anioInicioAux = this.state.inicioPeriodo.trim().split('-')[0];
     let mesInicioAux = this.state.inicioPeriodo.trim().split('-')[1];
@@ -99,14 +91,10 @@ export class ReservasAdmin extends React.Component {
     let fechInicio = new Date(anioInicioAux, +mesInicioAux - 1, 1);
     let fechFin = new Date(anioFinAux, +mesFinAux - 1, diaFinAux);
     let paramFecha = new Date(anio, mes - 1, 1);
-    //console.log('->calendarioadmin.js->anioInicio: '+anioInicioAux +' mesInicio: '+mesInicioAux+' anioFin: '+anioFinAux+' mesFin:'+mesFinAux);
-    //console.log('->calendarioadmin.js->fechInicio: ',fechInicio ,' fechFin: ',fechFin, ' paramFecha: ',paramFecha);
 
     if ((fechFin.getTime() >= paramFecha.getTime()) && (fechInicio.getTime() <= paramFecha.getTime())) {
-      //console.log('->calendarioadmin.js->ESTA EN FECHA')
       doSimpleCorsGetRequest('/calendario/diasinhabilitados/' + (mes))
         .then(rta => {
-          //console.log('->calendarioadmin.js->ESTA EN FECHA->diasinhabilitados->rta->', rta);
           let diasnohabiles = rta.map((e) => {
             let dia = e.dia.trim().split('-');
             return (+dia[2])
@@ -116,37 +104,27 @@ export class ReservasAdmin extends React.Component {
         .then(rta => {
           let inicio = this.state.inicio.trim().split('-');
           let fin = this.state.fin.trim().split('-');
-          //console.log('->calendarioadmin.js->verdes->inicio: '+inicio+' fin: '+fin+' mesSelec: '+this.state.mesSelec +' añoSelec: '+this.state.anioSelec);
           let diashabiles = {};
           diashabiles.inicio = (this.state.mesSelec == inicio[1]) ? +inicio[2] : 1;
           diashabiles.fin = (this.state.mesSelec == fin[1]) ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
-          //console.log('->calendarioadmin.js->verdes: ', diashabiles)
           this.setState({ diashabiles })
         })
-        .catch(err => console.log('calendario-err: ', err));
+        .catch();
     } else {
-      //console.log('->calendarioadmin.js->NO ESTA EN FECHA')
       this.setState({ diashabiles: [] })
     }
   }
   eliminarSala(indice) {
-    //console.log('eliminando el indice: ', indice)
     let solsAux = Array.from(this.state.solicitudesSalas);
-    //console.log('salasAux ',salasAux);
     solsAux.splice(indice, 1);
     this.setState({ solicitudesSalas: solsAux });
-    //console.log('salasAux ',salasAux);
   }
   eliminarAcc(indice) {
-    //console.log('eliminando el indice: ', indice)
     let solsAux = Array.from(this.state.solicitudesAccs);
-    //console.log('salasAux ',salasAux);
     solsAux.splice(indice, 1);
     this.setState({ solicitudesAccs: solsAux });
-    //console.log('salasAux ',salasAux);
   }
   setDia(d) {
-    console.log("--setDia: " + d);
     this.setState({ diaSelec: d })
     if (this.state.vistaSala) {
       if (this.state.idSolicitudSalaSeleccionada !== null) { this.consultaReservasSala(d); }
@@ -155,7 +133,6 @@ export class ReservasAdmin extends React.Component {
     }
   }
   setMes(mes, anio) {
-    //console.log("->ReservarSala->setMes>mes: " + mes + " anio: " + anio);
     this.setState({ mesSelec: mes });
     let anioInicioAux = this.state.inicioPeriodo.trim().split("-")[0];
     let mesInicioAux = this.state.inicioPeriodo.trim().split("-")[1];
@@ -169,7 +146,6 @@ export class ReservasAdmin extends React.Component {
     if (fechFin.getTime() >= paramFecha.getTime() && fechInicio.getTime() <= paramFecha.getTime()) {
       doSimpleCorsGetRequest("/calendario/diasinhabilitados/" + mes)
         .then((rta) => {
-          //console.log("->calendarioadmin.js->ESTA EN FECHA->diasinhabilitados->rta->", rta);
           let diasnohabiles = rta.map((e) => {
             let dia = e.dia.trim().split("-");
             return +dia[2];
@@ -183,25 +159,19 @@ export class ReservasAdmin extends React.Component {
         .then((rta) => {
           let inicio = this.state.inicioPeriodo.trim().split("-");
           let fin = this.state.finPeriodo.trim().split("-");
-          //console.log('->calendarioadmin.js->verdes->inicio: '+inicio+' fin: '+fin+' mesSelec: '+this.state.mesSelec +' añoSelec: '+this.state.anioSelec);
           let diashabilitados = {};
           diashabilitados.inicio = this.state.mesSelec == inicio[1] ? +inicio[2] : 1;
           diashabilitados.fin = this.state.mesSelec == fin[1] ? +fin[2] : this.state.diasXmes[this.state.mesSelec - 1];
-          //console.log('->calendarioadmin.js->verdes: ',verdes)
           this.setState({ diashabilitados });
         })
-        .catch((err) => console.log("calendario-err: ", err));
+        .catch();
     } else {
-      //console.log('->calendarioadmin.js->NO ESTA EN FECHA')
       this.setState({ diashabilitados: {} });
     }
   }
   consultaReservasSala(indice, anio, mes, dia) {
-    //console.log("consultandoReservas->/salas/estado/" + this.state.idSalaSeleccionada + "/" + this.state.anioSelec + "-" + this.state.mesSelec + "-" + dia);
-    //console.log("->reseraadmin.js->consultaReservaSala->/salas/estado/" + this.state.solicitudesSalas[indice].Sala.idSala + "/" +anio+"-"+mes+"-"+dia, this.props.usuario.token)
     doJwtCorsGetRequest("/salas/estado/" + this.state.solicitudesSalas[indice].Sala.idSala + "/" + anio + "-" + mes + "-" + dia, this.props.usuario.token)
-      .then((rta) => {
-        console.log("->reservadmin.js->consultaReservasSala->Rta: " + JSON.stringify(rta));        
+      .then((rta) => {     
         let h1 = this.state.solicitudesSalas[indice].horaInicio.split(':');
         let h2 = this.state.solicitudesSalas[indice].horaFin.split(':');
         let inicioSolicitud = (+h1[0] * 100) + (+h1[1]);
@@ -214,9 +184,7 @@ export class ReservasAdmin extends React.Component {
           //chequeo de superposicion de horarios
           let inicioElem = (+hora0[0]*100)+(+hora0[1]);
           let finElem = (+hora1[0]*100)+(+hora1[1]);
-          //console.log('->reservasadmin.js->consultaReservaSala->chequeando inicioElm: '+inicioElem+' finElem: '+finElem+' inicioSolicitud: '+inicioSolicitud+' finSolicitud: '+finSolicitud);
           if((finSolicitud>=inicioElem && finSolicitud<=finElem)||(inicioSolicitud>=inicioElem&&inicioSolicitud<finElem)){
-            console.log('hay choque');
             this.setState({hayChoque:++this.state.hayChoque})
           }
 
@@ -234,16 +202,13 @@ export class ReservasAdmin extends React.Component {
         return horarios;
       })
       .then((rta) => {
-        console.log("->reservadmin.js->consultaReservasSala->horarios: " + JSON.stringify(rta));
         this.setState({ horarios: rta });
       })
       .catch();
   }
   consultaReservasAcc(indice,anio,mes,dia) {
-    console.log("consultandoReservas->/salas/estado/" +  this.state.solicitudesAccs[indice].Accesorio.idAccesorio  + "/" +anio+"-"+mes+ "-" + dia);
     doJwtCorsGetRequest("/accesorios/estado/" + this.state.solicitudesAccs[indice].Accesorio.idAccesorio + "/" +anio+ "-" +mes+ "-" +dia, this.props.usuario.token)
       .then((rta) => {
-        console.log("->reservadmin.js->consultaReservasAccs>Rta: " + JSON.stringify(rta));    
         let horarios = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // this.state.horarios;
         rta.forEach((elem) => {
           let cant = -1 * elem.cantidad;
@@ -265,20 +230,15 @@ export class ReservasAdmin extends React.Component {
         return horarios;
       })
       .then((rta) => {
-        console.log('-->Horarios ocupados: ', rta)
         this.setState({ horarios: rta });     
         let h1 = this.state.solicitudesAccs[indice].horaInicio.split(':');
         let h2 = this.state.solicitudesAccs[indice].horaFin.split(':');
         let inicioH = (+h1[0]-7)*2;
         let finH = (+h2[0]-7)*2;
-        console.log('->reservadmin.js->consultaREservasAccs-> inicioH: '+inicioH+' finH: '+finH)
 
-        for (let i = inicioH; i < finH; i++) {
-          console.log('->reservadmin.js->consultaREservasAccs-> horarios['+i+']: '+rta[i])          
-          let cantResult = (+this.state.solicitudesAccs[indice].Accesorio.cantidad)-(+this.state.solicitudesAccs[indice].cantidad)+rta[i];
-          console.log('->reservadmin.js->consultaREservasAccs-> cantResult: '+cantResult)      
+        for (let i = inicioH; i < finH; i++) {        
+          let cantResult = (+this.state.solicitudesAccs[indice].Accesorio.cantidad)-(+this.state.solicitudesAccs[indice].cantidad)+rta[i];  
           if(cantResult<0){
-            console.log('->reservasadmin.js->no alcanza->saldo: ',cantResult);
             this.setState({hayChoque:++this.state.hayChoque})
           }    
         }
@@ -286,17 +246,11 @@ export class ReservasAdmin extends React.Component {
       .catch();
   }
   order(e) {
-    //console.log('e.target.value: ',e.target)
     let param = e.split('-')
-    //console.log('param[0]: ', param[0]);
     let pedidos = this.state.vistaSala ? this.state.solicitudesSalas : this.state.solicitudesAccs;
-    //console.log('---laboratorio rojo < laboratorio verde', ('laboratorio verde' < 'laboratorio rojo'));
-    //console.log('Orden-antes: ', pedidos)
     switch (param[0]) {
       case 'salas':
         pedidos.sort((a, b) => {
-          //console.log('a.Sala.descripcionCorta', a.Sala.descripcionCorta);
-          //console.log('b.Sala.descripcionCorta', b.Sala.descripcionCorta);
           if (a.Sala.descripcionCorta > b.Sala.descripcionCorta) { return (param[1] == 'asc') ? 1 : -1; }
           if (a.Sala.descripcionCorta < b.Sala.descripcionCorta) { return (param[1] == 'asc') ? -1 : 1; }
           return 0;
@@ -304,8 +258,6 @@ export class ReservasAdmin extends React.Component {
         break;
       case 'accs':
         pedidos.sort((a, b) => {
-          /* console.log('a.Accesorio.descripcionCorta', a.Sala.descripcionCorta);
-          console.log('b.Accesorio.descripcionCorta', b.Sala.descripcionCorta); */
           if (a.Accesorio.descripcionCorta > b.Accesorio.descripcionCorta) { return (param[1] == 'asc') ? 1 : -1; }
           if (a.Accesorio.descripcionCorta < b.Accesorio.descripcionCorta) { return (param[1] == 'asc') ? -1 : 1; }
           return 0;
@@ -324,7 +276,6 @@ export class ReservasAdmin extends React.Component {
           let f2 = b[param[0]].split('-')
           let fech1 = new Date(+f1[0], +f1[1] - 1, +f1[2]);
           let fech2 = new Date(+f2[0], +f2[1] - 1, +f2[2]);
-          //console.log('fech1: ', fech1)
           if (fech1.getTime() > fech2.getTime()) { return (param[1] == 'asc') ? 1 : -1; }
           if (fech1.getTime() < fech2.getTime()) { return (param[1] == 'asc') ? -1 : 1; }
           return 0;
@@ -340,7 +291,6 @@ export class ReservasAdmin extends React.Component {
           let h2 = b.horaInicio.split(':');
           let a1 = (+h1[0] * 100) + (+h1[1]);
           let b1 = (+h2[0] * 100) + (+h2[1]);
-          //console.log('fech1: ', fech1)
           if (fech1.getTime() > fech2.getTime()) { return (param[1] == 'asc') ? 1 : -1; }
           if (fech1.getTime() < fech2.getTime()) { return (param[1] == 'asc') ? -1 : 1; }
           if (a1 < b1) { return (param[1] == 'asc') ? 1 : -1; }
@@ -358,7 +308,6 @@ export class ReservasAdmin extends React.Component {
         })
         break;
       default: //para especialidad y, materia en param[0]
-        //console.log('Orden-default->param[1]', param[0])
         pedidos.sort((a, b) => {
           if (a[param[0]] > b[param[0]]) { return (param[1] == 'asc') ? 1 : -1; }
           if (a[param[0]] < b[param[0]]) { return (param[1] == 'asc') ? -1 : 1; }
@@ -371,7 +320,6 @@ export class ReservasAdmin extends React.Component {
     } else {
       this.setState({ solicitudesAccs: pedidos })
     }
-    //console.log('Orden-despues: ', pedidos)
   }
   seleccionSolicitud(indice) {
     //sacar fechaPedida, idSala
@@ -386,13 +334,8 @@ export class ReservasAdmin extends React.Component {
       this.setMes(+f1[1], +f1[0]);
       this.consultaReservasAcc(indice, f1[0], +f1[1], f1[2]);
     }
-    //console.log('->reservasadmin.js->seleccionSolicitud(): ',+f1[1] - 1, +f1[0])
   }
-  /*   seleccionarAcc(e) { this.setState({ idAccSeleccionado: e }) }
-    seleccionarSala(e) { this.setState({ idSalaSeleccionada: e }) } */
   render() {
-    //console.log('idAccSeleccionado: ' + this.state.idAccSeleccionado)
-    console.log('hay choque: ',this.state.hayChoque)
     return (
       <div>
         <h3 className="text-center fw-normal mt-3 mb-4">Gestión de solicitudes de turnos</h3>

@@ -17,28 +17,19 @@ const GestionSalas = ({ usuario }) => {
   useEffect(() => {
     doSimpleCorsGetRequest("/salas")
       .then((rta) => {
-        console.log("-->gesion salas->rta: ", rta);
         setSalas(rta);
-        console.log("useEffect->salas->", salas);
       })
-      .catch((err) => {
-        console.log("error->", err);
-      });
+      .catch(err);
   }, []);
   const subirSala = (e)=>{
     const salasAux = salas;
-    //salasAux.push(e);
-    //setSalas(salasAux);
     setCreatingSala(false);
   }
 
   const eliminarSala = (indice) => {
-    console.log('eliminando el indice: ', indice)
     let salasAux = Array.from(salas);
-    console.log('salasAux ', salasAux);
     salasAux.splice(indice, 1);
     setSalas(salasAux);
-    console.log('salasAux ', salasAux);
   }
 
   return (

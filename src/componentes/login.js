@@ -10,7 +10,6 @@ const Login = ({ usuario, salir }) => {
 
     const submitear = (e) => {
         e.preventDefault();
-        console.log('usuario ->', usuario);
         salir();
     }
 

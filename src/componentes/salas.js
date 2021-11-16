@@ -12,11 +12,9 @@ class Salas extends React.Component {
         }
     }
     componentDidMount() {
-        console.log('iniciando');
         doSimpleCorsGetRequest('/salas/')
             .then(rta => {
                 this.setState({ salas: rta })
-                console.log('Rta->salas: ' + rta);
             })
             .catch();
     }

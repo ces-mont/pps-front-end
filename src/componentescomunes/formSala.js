@@ -12,15 +12,12 @@ const FormSala = ({ usuario, subiendo }) => {
 
   const crearSala = (e) => {
     e.preventDefault();
-    console.log('nuevaSala->')
     let sala = { tipo, ubicacion, descripcionLarga, descripcionCorta, urlImagen }
-    console.log('sala', sala)
     doJwtPreflightCorsPostRequest('/salas', JSON.stringify({ tipo, ubicacion, descripcionLarga, descripcionCorta, urlImagen, idUsuario: usuario.idUsuario }), false, usuario.token)
       .then(rta => {
-        console.log('rta ', rta);
         subiendo(false)
       })
-      .catch(err => console.log('err ', err));
+      .catch();
   }
   return (
     <Form onSubmit={crearSala} className="mt-1 p-3 border">

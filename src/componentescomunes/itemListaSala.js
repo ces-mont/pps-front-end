@@ -13,23 +13,18 @@ const ItemListaSala = ({ e, usuario, sacarSala, indice }) => {
     ev.preventDefault();
     doJwtPreflightCorsPutRequest("/salas", JSON.stringify(estadoSala), usuario.token)
       .then((rta) => {
-        //si se subio ok => actualizar el estado con "actualizar()"
-        //console.log(rta);
         setModifing(false);
       })
-      .catch((err) => console.log("err->", err));
+      .catch();
   };
   const eliminarSala = (ev) => {
-    console.log('ELIMINAR-SALA->IDSALA: ', estadoSala)
     doJwtPreflightCorsDeleteRequest('/salas', JSON.stringify({ idSala: estadoSala.idSala }), usuario.token)
       .then(rta => {
-        console.log('rta-> ', rta);
         sacarSala(indice)
       })
-      .catch(err => console.log('err->', err));
+      .catch();
   }
   const setCampo = (ev) => {
-    console.log("campo-> ", ev.target.name, " valor->", ev.target.value);
     let sala = {
       tipo: estadoSala.tipo,
       descripcionCorta: estadoSala.descripcionCorta,

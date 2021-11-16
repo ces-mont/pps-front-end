@@ -14,22 +14,16 @@ const GestionAccesorios = ({ usuario }) => {
   useEffect(() => {
     doSimpleCorsGetRequest("/accesorios")
       .then((rta) => {
-        console.log("-->gesion acces->rta: ", rta);
         setAccs(rta);
-        console.log("useEffect->accs->", accs);
       })
       .catch((err) => {
-        console.log("error->", err);
       });
   }, []);
 
   const eliminarAcc = (indice)=>{
-    console.log('eliminando el indice: ',indice)
     let accsAux = Array.from(accs);
-    console.log('accsAux ',accsAux);
     accsAux.splice(indice,1);
     setSalas(accsAux);
-    console.log('accsAux ',accsAux);
   }
 
   return (
